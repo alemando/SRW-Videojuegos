@@ -1,0 +1,579 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.ontologiaIntegracion.com/"
+     xml:base="http://www.ontologiaIntegracion.com/"
+     xmlns:dbo="http://dbpedia.org/ontology/"
+     xmlns:dbp="http://dbpedia.org/property/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:vdo="http://videogames.com/"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:vocab="http://localhost:2020/resource/vocab/">
+    <owl:Ontology rdf:about="http://www.ontologiaIntegracion.com/"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dbpedia.org/ontology/developer -->
+
+    <owl:ObjectProperty rdf:about="http://dbpedia.org/ontology/developer"/>
+    
+
+
+    <!-- http://dbpedia.org/ontology/gameEngine -->
+
+    <owl:ObjectProperty rdf:about="http://dbpedia.org/ontology/gameEngine">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Developed_in"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/VideoGame"/>
+        <rdfs:range rdf:resource="http://dbpedia.org/ontology/gameEngine"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://dbpedia.org/ontology/publisher -->
+
+    <owl:ObjectProperty rdf:about="http://dbpedia.org/ontology/publisher">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Published_by"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/VideoGame"/>
+        <rdfs:range rdf:resource="http://dbpedia.org/ontology/publisher"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/game_engine_developed_by -->
+
+    <owl:ObjectProperty rdf:about="http://localhost:2020/resource/vocab/game_engine_developed_by">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Developed_by"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/game_engine"/>
+        <rdfs:range rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_developed_by -->
+
+    <owl:ObjectProperty rdf:about="http://localhost:2020/resource/vocab/videogame_developed_by">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Developed_by"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_developed_in -->
+
+    <owl:ObjectProperty rdf:about="http://localhost:2020/resource/vocab/videogame_developed_in">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Developed_in"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://localhost:2020/resource/vocab/game_engine"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_published_by -->
+
+    <owl:ObjectProperty rdf:about="http://localhost:2020/resource/vocab/videogame_published_by">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/Published_by"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://localhost:2020/resource/vocab/publisher"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Developed_by -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Developed_by">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://videogames.com/Developer_of"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://videogames.com/Developer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Developed_in -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Developed_in">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://videogames.com/Used_in_develop_of"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://videogames.com/GameEngine"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Developer_of -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Developer_of">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Developer"/>
+        <rdfs:range rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:range rdf:resource="http://videogames.com/Videogame"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Published_by -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Published_by">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://videogames.com/Publisher_of"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://videogames.com/Publisher"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Publisher_of -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Publisher_of">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Publisher"/>
+        <rdfs:range rdf:resource="http://videogames.com/Videogame"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://videogames.com/Used_in_develop_of -->
+
+    <owl:ObjectProperty rdf:about="http://videogames.com/Used_in_develop_of">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AsymmetricProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:range rdf:resource="http://videogames.com/Videogame"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dbpedia.org/ontology/foundingDate -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/ontology/foundingDate">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/foundation_date"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/developer"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/publisher"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://dbpedia.org/ontology/genre -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/ontology/genre">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/genre"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/VideoGame"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://dbpedia.org/ontology/license -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/ontology/license">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/license"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/developer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://dbpedia.org/ontology/location -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/ontology/location">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/location"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/developer"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/publisher"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://dbpedia.org/ontology/releaseDate -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/ontology/releaseDate">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/release_date"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/VideoGame"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/gameEngine"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://dbpedia.org/property/founders -->
+
+    <owl:DatatypeProperty rdf:about="http://dbpedia.org/property/founders">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/founder"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/developer"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/publisher"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/developer_founder -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/developer_founder">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/founder"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/developer_founder_date -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/developer_founder_date">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/foundation_date"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/developer_location -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/developer_location">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/location"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/developer_name -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/developer_name">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/name"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/developer"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/game_engine_license -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/game_engine_license">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/license"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/game_engine"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/game_engine_name -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/game_engine_name">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/name"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/game_engine"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/game_engine_release_date -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/game_engine_release_date">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/release_date"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/game_engine"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/publisher_founder -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/publisher_founder">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/founder"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/publisher_founder_date -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/publisher_founder_date">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/foundation_date"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/publisher_location -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/publisher_location">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/location"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/publisher_name -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/publisher_name">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/name"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_genre -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/videogame_genre">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/genre"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_name -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/videogame_name">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/name"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame_release_date -->
+
+    <owl:DatatypeProperty rdf:about="http://localhost:2020/resource/vocab/videogame_release_date">
+        <owl:equivalentProperty rdf:resource="http://videogames.com/release_date"/>
+        <rdfs:domain rdf:resource="http://localhost:2020/resource/vocab/videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/foundation_date -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/foundation_date">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Company"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Developer"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/founder -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/founder">
+        <rdfs:domain rdf:resource="http://videogames.com/Company"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Developer"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/genre -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/genre">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/license -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/license">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/location -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/location">
+        <rdfs:domain rdf:resource="http://videogames.com/Company"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Developer"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/name -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/name">
+        <owl:equivalentProperty rdf:resource="http://www.w3.org/2000/01/rdf-schema#label"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Company"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Developer"/>
+        <rdfs:domain rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Publisher"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://videogames.com/release_date -->
+
+    <owl:DatatypeProperty rdf:about="http://videogames.com/release_date">
+        <rdfs:domain rdf:resource="http://videogames.com/GameEngine"/>
+        <rdfs:domain rdf:resource="http://videogames.com/Videogame"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTimeStamp"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2000/01/rdf-schema#label -->
+
+    <owl:DatatypeProperty rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/VideoGame"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/developer"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/gameEngine"/>
+        <rdfs:domain rdf:resource="http://dbpedia.org/ontology/publisher"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dbpedia.org/ontology/VideoGame -->
+
+    <owl:Class rdf:about="http://dbpedia.org/ontology/VideoGame">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Videogame"/>
+    </owl:Class>
+    
+
+
+    <!-- http://dbpedia.org/ontology/developer -->
+
+    <owl:Class rdf:about="http://dbpedia.org/ontology/developer">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Developer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://dbpedia.org/ontology/gameEngine -->
+
+    <owl:Class rdf:about="http://dbpedia.org/ontology/gameEngine">
+        <owl:equivalentClass rdf:resource="http://videogames.com/GameEngine"/>
+    </owl:Class>
+    
+
+
+    <!-- http://dbpedia.org/ontology/publisher -->
+
+    <owl:Class rdf:about="http://dbpedia.org/ontology/publisher">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Publisher"/>
+    </owl:Class>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/developer -->
+
+    <owl:Class rdf:about="http://localhost:2020/resource/vocab/developer">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Developer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/game_engine -->
+
+    <owl:Class rdf:about="http://localhost:2020/resource/vocab/game_engine">
+        <owl:equivalentClass rdf:resource="http://videogames.com/GameEngine"/>
+    </owl:Class>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/publisher -->
+
+    <owl:Class rdf:about="http://localhost:2020/resource/vocab/publisher">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Publisher"/>
+    </owl:Class>
+    
+
+
+    <!-- http://localhost:2020/resource/vocab/videogame -->
+
+    <owl:Class rdf:about="http://localhost:2020/resource/vocab/videogame">
+        <owl:equivalentClass rdf:resource="http://videogames.com/Videogame"/>
+    </owl:Class>
+    
+
+
+    <!-- http://videogames.com/Company -->
+
+    <owl:Class rdf:about="http://videogames.com/Company"/>
+    
+
+
+    <!-- http://videogames.com/Developer -->
+
+    <owl:Class rdf:about="http://videogames.com/Developer">
+        <rdfs:subClassOf rdf:resource="http://videogames.com/Company"/>
+    </owl:Class>
+    
+
+
+    <!-- http://videogames.com/GameEngine -->
+
+    <owl:Class rdf:about="http://videogames.com/GameEngine"/>
+    
+
+
+    <!-- http://videogames.com/Publisher -->
+
+    <owl:Class rdf:about="http://videogames.com/Publisher">
+        <rdfs:subClassOf rdf:resource="http://videogames.com/Company"/>
+    </owl:Class>
+    
+
+
+    <!-- http://videogames.com/Videogame -->
+
+    <owl:Class rdf:about="http://videogames.com/Videogame"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
