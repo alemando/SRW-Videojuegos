@@ -3,6 +3,12 @@ package videojuegos;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
@@ -12,23 +18,13 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.FileManager;
 
 public class OWLVirtuosoEndPoint {
-	public void consulta(String query) throws FileNotFoundException {
-		Model model = ModelFactory.createDefaultModel();
-		InputStream archivo = FileManager.get().open("Robots.owl");
-		model.read(archivo,null, "RDF/XML");
+	public void consulta(String queryString) throws FileNotFoundException {
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qexec = QueryExecutionFactory.sparqlService("http://localhost:8890/sparql/", query);
 		
-		StmtIterator iter = model.listStatements();
+		ResultSet results = qexec.execSelect();
+		ResultSetFormatter.out(System.out,results, query);
 		
-		while(iter.hasNext()) {
-			Statement stm = iter.next();
-			
-			Resource s = stm.getSubject();
-			Resource p = stm.getPredicate();
-			RDFNode o = stm.getObject();
-			
-			System.out.println(s +"  -  "+ p + "  -  " + o);
-		}
-		
-		iter.close();
+		qexec.close();
 	}
 }
