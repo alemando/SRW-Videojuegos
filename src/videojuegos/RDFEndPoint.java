@@ -21,7 +21,7 @@ public class RDFEndPoint {
 	
 	public void consulta(String queryString) throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		InputStream archivo = FileManager.get().open("src/resources/rdfIntegracion.owl");
+		InputStream archivo = FileManager.get().open("src/resources/videojuegos.RDF");
 		model.read(archivo,null, "RDF/XML");
 		
 		Query query = QueryFactory.create(queryString);
