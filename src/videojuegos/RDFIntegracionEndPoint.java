@@ -17,7 +17,7 @@ public class RDFIntegracionEndPoint {
 	
 	public void consulta(String queryString) throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		InputStream archivo = FileManager.get().open("src/resources/rdfIntegracion.RDF");
+		InputStream archivo = FileManager.get().open("src/resources/rdfIntegracion.owl");
 		model.read(archivo,null, "RDF/XML");
 		
 		Query query = QueryFactory.create(queryString);
