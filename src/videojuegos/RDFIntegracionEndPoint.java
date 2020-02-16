@@ -26,16 +26,15 @@ public class RDFIntegracionEndPoint {
 		Query query = QueryFactory.create(queryString);
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
 		
-		ResultSet results = qexec.execSelect();
-		ArrayList<QuerySolution> r = new ArrayList<QuerySolution>();
+		ResultSet results = qexec.execSelect();	
+		ArrayList<QuerySolution> resultados = new ArrayList<QuerySolution>();
+		
 		while(results.hasNext()) {
-			QuerySolution soln = results.nextSolution();
-			r.add(soln);
+			resultados.add(results.nextSolution());
 		}
-		
-		
 		qexec.close();
-		return r;
+		return resultados;
+		
 	}
 
 }
