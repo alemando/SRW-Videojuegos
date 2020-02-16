@@ -1,8 +1,14 @@
 package videojuegos;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Resource;
 
 public class Main {
 	
@@ -14,22 +20,10 @@ public class Main {
 		frame.setContentPane(new InterfazPrincipal());
 		
 		
-		/*
-		try {
-			new RDFIntegracionEndPoint().consulta("PREFIX vdo: <http://videogames.com/>\r\n"+
-					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
-					"SELECT DISTINCT ?class\r\n" + 
-					"WHERE {\r\n" + 
-					"  ?class a owl:Class.\r\n" + 
-					"  FILTER( STRSTARTS(STR(?class),str(vdo:)) )\r\n" + 
-					"}");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		/*
-		try {
+		
+		
+		
+		/*try {
 			new RDFEndPoint().consulta("PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
 					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 					"SELECT DISTINCT ?p ?n ?r WHERE {\r\n" + 
@@ -52,8 +46,8 @@ public class Main {
 				"  ?s ?p ?o\r\n" + 
 				"}");
 		new DBPediaEndPoint().consulta("select distinct ?Concept where {[] a ?Concept} LIMIT 100");
-
-
+	
+	*/
 	}
 
 }

@@ -1,21 +1,24 @@
 package videojuegos;
 
+import java.awt.List;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.FileManager;
 
 public class RDFIntegracionEndPoint {
 	
-	public void consulta(String queryString) throws FileNotFoundException {
+	public ArrayList<QuerySolution> consulta(String queryString) throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
 		InputStream archivo = FileManager.get().open("src/resources/rdfIntegracion.owl");
 		model.read(archivo,null, "RDF/XML");
@@ -24,12 +27,15 @@ public class RDFIntegracionEndPoint {
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
 		
 		ResultSet results = qexec.execSelect();
+		ArrayList<QuerySolution> r = new ArrayList<QuerySolution>();
 		while(results.hasNext()) {
 			QuerySolution soln = results.nextSolution();
-			System.out.println(soln);
+			r.add(soln);
 		}
 		
+		
 		qexec.close();
+		return r;
 	}
 
 }
