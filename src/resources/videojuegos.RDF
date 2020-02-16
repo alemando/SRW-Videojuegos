@@ -1,0 +1,405 @@
+<?xml version="1.0"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:vod="http://www.videogames.com/"> 
+
+
+		<rdfs:Class rdf:ID="Company"/>
+		<rdfs:Class rdf:ID="Videogame"/>
+		<rdfs:Class rdf:ID="Publisher">
+			<rdfs:subClassOf rdf:resource="http://www.videogames.com/Company"/>
+		</rdfs:Class>
+		<rdfs:Class rdf:ID="Developer">
+			<rdfs:subClassOf rdf:resource="http://www.videogames.com/Company"/>
+		</rdfs:Class>
+		<rdfs:Class rdf:ID="GameEngine"/>
+
+
+		<rdf:Property rdf:ID="Publisher_of">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Publisher"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/Videogame"/>
+		</rdf:Property>
+
+		<rdf:Property rdf:ID="Published_by">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/Publisher"/>
+		</rdf:Property>
+
+		<rdf:Property rdf:ID="Developed_by">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/GameEngine"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/Developer"/>
+		</rdf:Property>
+
+		<rdf:Property rdf:ID="Developer_of">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/Videogame"/>
+		</rdf:Property>
+
+		<rdf:Property rdf:ID="Developer_of">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/GameEngine"/>
+		</rdf:Property>			
+
+		<rdf:Property rdf:ID="Developed_in">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/GameEngine"/>
+		</rdf:Property>		
+
+		<rdf:Property rdf:ID="Used_in_develop_of">
+			<rdfs:domain rdf:resource="http://www.videogames.com/GameEngine"/>
+			<rdfs:range rdf:resource="http://www.videogames.com/Videogame"/>
+		</rdf:Property>		
+
+		<rdf:Property rdf:ID="foundation_date">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Publisher"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Company"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+		</rdf:Property>	
+
+		<rdf:Property rdf:ID="http://www.videogames.com/founder">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Publisher"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Company"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+		</rdf:Property>	
+
+		<rdf:Property rdf:ID="http://www.videogames.com/genre">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+		</rdf:Property>		
+
+		<rdf:Property rdf:about="http://www.videogames.com/location">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Publisher"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Company"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+		</rdf:Property>		
+
+		<rdf:Property rdf:ID="http://www.videogames.com/license">
+			<rdfs:domain rdf:resource="http://www.videogames.com/GameEngine"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+		</rdf:Property>		
+
+		<rdf:Property rdf:ID="http://www.videogames.com/name">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/GameEngine"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Publisher"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Company"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+		</rdf:Property>
+
+		<rdf:Property rdf:ID="http://www.videogames.com/release_date">
+			<rdfs:domain rdf:resource="http://www.videogames.com/Videogame"/>
+			<rdfs:domain rdf:resource="http://www.videogames.com/GameEngine"/>
+			<rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+		</rdf:Property>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Anthem">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/BioWare"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/Frostbite"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Electronic_Arts"/>
+			<vod:genre>Action</vod:genre>
+			<vod:genre>role-playing</vod:genre>
+			<vod:name>Anthem</vod:name>
+			<vod:date>2019-02-22</vod:date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Anvil_Next">
+			<rdfs:type	rdf:resource="Game_engine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Ubisoft_Montreal"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Assassins_Creed_Unity"/>
+			<vod:license>Proprietary</vod:license>
+			<vod:name>Anvil Next</vod:name>
+			<vod:release_date>2007</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/BioWare">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Anthem"/>
+			<vod:foundation_date>1995-02-01</vod:foundation_date>
+			<vod:founder>Augustine Yip</vod:founder>
+			<vod:founder>Brent Oster</vod:founder>
+			<vod:founder>Greg Zeschuk</vod:founder>
+			<vod:founder>Marcel Zeschuk</vod:founder>
+			<vod:founder>Ray Muzyka</vod:founder>
+			<vod:founder>Trent Oster</vod:founder>
+			<vod:location>Edmonton, Alberta, Canada</vod:location>
+			<vod:name>BioWare</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/CryEngine">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Crytek"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Far_Cry"/>
+			<vod:license>Source-available commercial software with royalty model for commercial use</vod:license>
+			<vod:name>CryEngine</vod:name>
+			<vod:release_date>2002-05-02</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Crytek">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/CryEngine"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Far_Cry"/>
+			<vod:foundation_date>1999-09</vod:foundation_date>
+			<vod:founder>Avni Yerli</vod:founder>
+			<vod:founder>Cevat Yerli</vod:founder>
+			<vod:founder>Faruk Yerli</vod:founder>
+			<vod:location>Frankfurt, Germany</vod:location>
+			<vod:name>Crytek</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/DICE">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Frostbite"/>
+			<vod:foundation_date>1992-27</vod:foundation_date>
+			<vod:founder>Andreas Axelsson</vod:founder>
+			<vod:founder>Fredrik Liljegren</vod:founder>
+			<vod:founder>Markus Nyström</vod:founder>
+			<vod:founder>Olof Gustafsson</vod:founder>
+			<vod:location>Stockholm, Sweden</vod:location>
+			<vod:name>DICE</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Decima">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Guerrilla_Games"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Horizon_Zero_Dawn"/>
+			<vod:license>Proprietary</vod:license>
+			<vod:name>Decima</vod:name>
+			<vod:release_date>2013-11-15</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Electronic_Arts">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+			<vod:Publisher_of rdf:resource="http://www.videogames.com/Anthem"/>
+			<vod:foundation_date>1982-05-27</vod:foundation_date>
+			<vod:founder>Trip Hawkins</vod:founder>
+			<vod:location>Redwood City, California, US</vod:location>
+			<vod:name>Electronic Arts</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Epic_Games">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Gears_of_War_3"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Unreal_Engine"/>
+			<vod:foundation_date>Cary, North Carolina, US</vod:foundation_date>
+			<vod:founder>Tim Sweeney</vod:founder>
+			<vod:name>Epic Games</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Far_Cry">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Crytek"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/CryEngine"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Ubisoft"/>
+			<vod:genre>First-person shooter</vod:genre>
+			<vod:name>Far Cry</vod:name>
+			<vod:release_date>2004-03-23</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Frostbite">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/DICE"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Anthem"/>
+			<vod:name>Frostbite</vod:name>
+			<vod:release_date>2008-06</vod:release_date>
+			<vod:license>Proprietary</vod:license>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Gears_of_War_3">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Epic_Games"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/Unreal_Engine"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Microsoft_Studios"/>
+			<vod:name>Gears of War 3</vod:name>
+			<vod:genre>Third-person shooter</vod:genre>
+			<vod:release_date>2011-09-20</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Guerrilla_Games">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Decima"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Horizon_Zero_Dawn"/>
+			<vod:name>Guerrilla Games</vod:name>
+			<vod:foundation_date>2000-01-01</vod:foundation_date>
+			<vod:founder>Arjan Brussee</vod:founder>
+			<vod:founder>Arnout van der Kamp</vod:founder>
+			<vod:founder>Martin de Ronde</vod:founder>
+			<vod:founder>Michiel Mol</vod:founder>
+			<vod:location>Amsterdam, Netherlands</vod:location>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Horizon_Zero_Dawn">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/Decima"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Guerrilla_Games"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Sony_Interactive_Entertainment"/>
+			<vod:name>Horizon Zero Dawn</vod:name>
+			<vod:genre>Action</vod:genre>
+			<vod:genre>role-playing</vod:genre>
+			<vod:release_date>2017-02-28</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Klei_Entertainment">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<rdfs:type  rdf:resource="http://www.videogames.com/Publisher"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Oxygen_Not_Included"/>
+			<vod:Publisher_of rdf:resource="http://www.videogames.com/Oxygen_Not_Included"/>	
+			<vod:name>Klei Entertainment</vod:name>
+			<vod:foundation_date>2005-07</vod:foundation_date>
+			<vod:location>Vancouver</vod:location>
+			<vod:founder>Jamie Cheng</vod:founder>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Microsoft_Game_Studios">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Microsoft_Games">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Microsoft_Studios">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/OGRE_3D">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Ogre_Team"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Torchlight"/>
+			<vod:name>OGRE 3D</vod:name>
+			<vod:release_date>2005-02</vod:release_date>
+			<vod:license>MIT</vod:license>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Ogre_Team">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/OGRE_3D"/>
+			<vod:name>Ogre Team</vod:name>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Oxygen_Not_Included">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Klei_Entertainment"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/Unity"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Klei_Entertainment"/>
+			<vod:name>Oxygen Not Included</vod:name>
+			<vod:genre>simulation</vod:genre>
+			<vod:genre>survival</vod:genre>
+			<vod:release_date>2019-07-30</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Runic_Games">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Torchlight"/>
+			<vod:name>Runic Games</vod:name>
+			<vod:foundation_date>2008-08-11</vod:foundation_date>
+			<vod:location>Seattle, Washington</vod:location>
+			<vod:founder>Erich Schaefer</vod:founder>
+			<vod:founder>Max Schaefer</vod:founder>
+			<vod:founder>Peter Hu</vod:founder>
+			<vod:founder>Travis Baldree</vod:founder>
+
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Sony_Interactive_Entertainment">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+			<vod:Publisher_of rdf:resource="http://www.videogames.com/Horizon_Zero_Dawn"/>
+			<vod:name>Sony Interactive Entertainment</vod:name>
+			<vod:foundation_date>1993-11-16</vod:foundation_date>
+			<vod:location>San Mateo, California, United States</vod:location>
+			<vod:founder>Ken Kutaragi</vod:founder>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Torchlight">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Runic_Games"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/OGRE_3D"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Xbox_Game_Studios"/>
+			<vod:name>Torchlight</vod:name>
+			<vod:genre>Action</vod:genre>
+			<vod:genre>hack and slash</vod:genre>
+			<vod:genre>role-playing</vod:genre>
+			<vod:release_date>2009-10-27</vod:release_date>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Ubisoft">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+			<vod:Publisher_of rdf:resource="http://www.videogames.com/Assassins_Creed_Unity"/>
+			<vod:name>Ubisoft</vod:name>
+			<vod:foundation_date>1986-03-28</vod:foundation_date>
+			<vod:location>Montreuil, Paris, France</vod:location>
+			<vod:founder>Christian Guillemot</vod:founder>
+			<vod:founder>Claude Guillemot</vod:founder>
+			<vod:founder>Gérard Guillemot</vod:founder>
+			<vod:founder>Michel Guillemot</vod:founder>
+			<vod:founder>Yves Guillemot</vod:founder>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Ubisoft_Montreal">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Assassins_Creed_Unity"/>
+			<vod:name>Ubisoft Montreal</vod:name>
+			<vod:foundation_date>1997-04-25</vod:foundation_date>	
+			<vod:location>Montreal, Canadá</vod:location>
+			<vod:founder>Ubisoft</vod:founder>		
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Unity">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Unity_Technologies"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Oxygen_Not_Included"/>
+			<vod:name>Unity</vod:name>
+			<vod:release_date>2005-06-08</vod:release_date>
+			<vod:license>Propietary software</vod:license>			
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Unity_Technologies">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Developer"/>
+			<vod:Developer_of rdf:resource="http://www.videogames.com/Unity"/>
+			<vod:name>Unity Technologies</vod:name>
+			<vod:foundation_date>2004</vod:foundation_date>
+			<vod:location>Copenhagen, Denmark</vod:location>
+			<vod:founder>David Helgason</vod:founder>
+			<vod:founder>Joachim Ante</vod:founder>
+			<vod:founder>Nicholas Francis</vod:founder>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Unreal_Engine">
+			<rdfs:type	rdf:resource="http://www.videogames.com/GameEngine"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Epic_Games"/>
+			<vod:Used_in_develop_of rdf:resource="http://www.videogames.com/Gears_of_War_3"/>
+			<vod:name>Unreal Engine</vod:name>
+			<vod:release_date>1998-05</vod:release_date>
+			<vod:license>Source-available commercial software with royalty model for commercial use</vod:license>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Xbox_Game_Studios">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Publisher"/>
+			<vod:Publisher_of rdf:resource="http://www.videogames.com/Torchlight"/>	
+			<vod:name>Microsoft Studios</vod:name>		
+			<vod:foundation_date>2000-03</vod:foundation_date>
+			<vod:location>Redmond, Washington</vod:location>
+			<vod:founder>Microsoft</vod:founder>
+		</rdf:Description>
+
+		<rdf:Description rdf:about="http://www.videogames.com/Assassins_Creed_Unity">
+			<rdfs:type	rdf:resource="http://www.videogames.com/Videogame"/>
+			<vod:Developed_by rdf:resource="http://www.videogames.com/Ubisoft_Montreal"/>
+			<vod:Developed_in rdf:resource="http://www.videogames.com/Anvil_Next"/>
+			<vod:Published_by rdf:resource="http://www.videogames.com/Ubisoft"/>
+			<vod:name>Assassins Creed Unity</vod:name>
+			<vod:genre>action</vod:genre>
+			<vod:genre>adventure</vod:genre>
+			<vod:genre>stealth</vod:genre>
+			<vod:release_date>2014-11-11</vod:release_date>
+		</rdf:Description>
+	
+		
+</rdf:RDF>

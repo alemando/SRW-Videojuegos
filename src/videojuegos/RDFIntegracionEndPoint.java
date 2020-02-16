@@ -11,17 +11,13 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.FileManager;
 
-public class RDFEndPoint {
+public class RDFIntegracionEndPoint {
 	
 	public void consulta(String queryString) throws FileNotFoundException {
 		Model model = ModelFactory.createDefaultModel();
-		InputStream archivo = FileManager.get().open("src/resources/videojuegos.RDF");
+		InputStream archivo = FileManager.get().open("src/resources/rdfIntegracion.RDF");
 		model.read(archivo,null, "RDF/XML");
 		
 		Query query = QueryFactory.create(queryString);
@@ -35,5 +31,5 @@ public class RDFEndPoint {
 		
 		qexec.close();
 	}
-	
+
 }
