@@ -1,18 +1,19 @@
-@prefix : <http://videogames.com/> .
+@prefix : <http://www.videogames.com/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix vdo: <http://www.videogames.com/> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://videogames.com/> .
+@base <http://www.videogames.com/> .
 
-<http://videogames.com/> rdf:type owl:Ontology .
+<http://www.videogames.com/> rdf:type owl:Ontology .
 
 #################################################################
 #    Object Properties
 #################################################################
 
-###  http://videogames.com/Developed_by
+###  http://www.videogames.com/Developed_by
 :Developed_by rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
               owl:inverseOf :Developer_of ;
@@ -22,7 +23,7 @@
               rdfs:range :Developer .
 
 
-###  http://videogames.com/Developed_in
+###  http://www.videogames.com/Developed_in
 :Developed_in rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
               owl:inverseOf :Used_in_develop_of ;
@@ -31,7 +32,7 @@
               rdfs:range :GameEngine .
 
 
-###  http://videogames.com/Developer_of
+###  http://www.videogames.com/Developer_of
 :Developer_of rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
               rdf:type owl:AsymmetricProperty ;
@@ -40,7 +41,7 @@
                          :Videogame .
 
 
-###  http://videogames.com/Published_by
+###  http://www.videogames.com/Published_by
 :Published_by rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
               owl:inverseOf :Publisher_of ;
@@ -49,7 +50,7 @@
               rdfs:range :Publisher .
 
 
-###  http://videogames.com/Publisher_of
+###  http://www.videogames.com/Publisher_of
 :Publisher_of rdf:type owl:ObjectProperty ;
               rdfs:subPropertyOf owl:topObjectProperty ;
               rdf:type owl:AsymmetricProperty ;
@@ -57,7 +58,7 @@
               rdfs:range :Videogame .
 
 
-###  http://videogames.com/Used_in_develop_of
+###  http://www.videogames.com/Used_in_develop_of
 :Used_in_develop_of rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf owl:topObjectProperty ;
                     rdf:type owl:AsymmetricProperty ;
@@ -69,48 +70,56 @@
 #    Data properties
 #################################################################
 
-###  http://videogames.com/foundation_date
+###  http://www.videogames.com/foundation_date
 :foundation_date rdf:type owl:DatatypeProperty ;
                  rdfs:subPropertyOf owl:topDataProperty ;
-                 rdfs:domain :Company ;
+                 rdfs:domain :Company ,
+                             :Developer ,
+                             :Publisher ;
                  rdfs:range xsd:dateTimeStamp .
 
 
-###  http://videogames.com/founder
+###  http://www.videogames.com/founder
 :founder rdf:type owl:DatatypeProperty ;
-         rdfs:domain :Company ;
+         rdfs:domain :Company ,
+                     :Developer ,
+                     :Publisher ;
          rdfs:range xsd:string .
 
 
-###  http://videogames.com/genre
+###  http://www.videogames.com/genre
 :genre rdf:type owl:DatatypeProperty ;
        rdfs:subPropertyOf owl:topDataProperty ;
        rdfs:domain :Videogame ;
        rdfs:range xsd:string .
 
 
-###  http://videogames.com/license
+###  http://www.videogames.com/license
 :license rdf:type owl:DatatypeProperty ;
          rdfs:subPropertyOf owl:topDataProperty ;
          rdfs:domain :GameEngine ;
          rdfs:range xsd:string .
 
 
-###  http://videogames.com/location
+###  http://www.videogames.com/location
 :location rdf:type owl:DatatypeProperty ;
-          rdfs:domain :Company ;
+          rdfs:domain :Company ,
+                      :Developer ,
+                      :Publisher ;
           rdfs:range xsd:string .
 
 
-###  http://videogames.com/name
+###  http://www.videogames.com/name
 :name rdf:type owl:DatatypeProperty ;
       rdfs:domain :Company ,
+                  :Developer ,
                   :GameEngine ,
+                  :Publisher ,
                   :Videogame ;
       rdfs:range xsd:string .
 
 
-###  http://videogames.com/release_date
+###  http://www.videogames.com/release_date
 :release_date rdf:type owl:DatatypeProperty ;
               rdfs:domain :GameEngine ,
                           :Videogame ;
@@ -121,25 +130,25 @@
 #    Classes
 #################################################################
 
-###  http://videogames.com/Company
+###  http://www.videogames.com/Company
 :Company rdf:type owl:Class .
 
 
-###  http://videogames.com/Developer
+###  http://www.videogames.com/Developer
 :Developer rdf:type owl:Class ;
            rdfs:subClassOf :Company .
 
 
-###  http://videogames.com/GameEngine
+###  http://www.videogames.com/GameEngine
 :GameEngine rdf:type owl:Class .
 
 
-###  http://videogames.com/Publisher
+###  http://www.videogames.com/Publisher
 :Publisher rdf:type owl:Class ;
            rdfs:subClassOf :Company .
 
 
-###  http://videogames.com/Videogame
+###  http://www.videogames.com/Videogame
 :Videogame rdf:type owl:Class .
 
 
@@ -147,7 +156,7 @@
 #    Individuals
 #################################################################
 
-###  http://videogames.com/Anthem
+###  http://www.videogames.com/Anthem
 :Anthem rdf:type owl:NamedIndividual ,
                  :Videogame ;
         :Developed_by :BioWare ;
@@ -159,17 +168,17 @@
         :release_date "2019-02-22" .
 
 
-###  http://videogames.com/Anvil_Next
+###  http://www.videogames.com/Anvil_Next
 :Anvil_Next rdf:type owl:NamedIndividual ,
                      :GameEngine ;
             :Developed_by :Ubisoft_Montreal ;
-            :Used_in_develop_of <http://videogames.com/#Assassin's_Creed_Unity> ;
+            :Used_in_develop_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
             :license "Proprietary" ;
             :name "Anvil Next" ;
             :release_date 2007 .
 
 
-###  http://videogames.com/BioWare
+###  http://www.videogames.com/BioWare
 :BioWare rdf:type owl:NamedIndividual ,
                   :Developer ;
          :Developer_of :Anthem ;
@@ -184,7 +193,7 @@
          :name "BioWare" .
 
 
-###  http://videogames.com/CryEngine
+###  http://www.videogames.com/CryEngine
 :CryEngine rdf:type owl:NamedIndividual ,
                     :GameEngine ;
            :Developed_by :Crytek ;
@@ -194,7 +203,7 @@
            :release_date "2002-05-02" .
 
 
-###  http://videogames.com/Crytek
+###  http://www.videogames.com/Crytek
 :Crytek rdf:type owl:NamedIndividual ,
                  :Developer ;
         :Developer_of :CryEngine ,
@@ -207,7 +216,7 @@
         :name "Crytek" .
 
 
-###  http://videogames.com/DICE
+###  http://www.videogames.com/DICE
 :DICE rdf:type owl:NamedIndividual ,
                :Developer ;
       :Developer_of :Frostbite ;
@@ -220,7 +229,7 @@
       :name "DICE" .
 
 
-###  http://videogames.com/Decima
+###  http://www.videogames.com/Decima
 :Decima rdf:type owl:NamedIndividual ,
                  :GameEngine ;
         :Developed_by :Guerrilla_Games ;
@@ -230,7 +239,7 @@
         :release_date "2013-11-15" .
 
 
-###  http://videogames.com/Electronic_Arts
+###  http://www.videogames.com/Electronic_Arts
 :Electronic_Arts rdf:type owl:NamedIndividual ,
                           :Publisher ;
                  :Publisher_of :Anthem ;
@@ -240,7 +249,7 @@
                  :name "Electronic Arts" .
 
 
-###  http://videogames.com/Epic_Games
+###  http://www.videogames.com/Epic_Games
 :Epic_Games rdf:type owl:NamedIndividual ,
                      :Developer ;
             :Developer_of :Gears_of_War_3 ,
@@ -251,7 +260,7 @@
             :name "Epic Games" .
 
 
-###  http://videogames.com/Far_Cry
+###  http://www.videogames.com/Far_Cry
 :Far_Cry rdf:type owl:NamedIndividual ,
                   :Videogame ;
          :Developed_by :Crytek ;
@@ -262,7 +271,7 @@
          :release_date "2004-03-23" .
 
 
-###  http://videogames.com/Frostbite
+###  http://www.videogames.com/Frostbite
 :Frostbite rdf:type owl:NamedIndividual ,
                     :GameEngine ;
            :Developed_by :DICE ;
@@ -272,7 +281,7 @@
            :name "Frostbite" .
 
 
-###  http://videogames.com/Gears_of_War_3
+###  http://www.videogames.com/Gears_of_War_3
 :Gears_of_War_3 rdf:type owl:NamedIndividual ,
                          :Videogame ;
                 :Developed_by :Epic_Games ;
@@ -283,7 +292,7 @@
                 :release_date "2011-09-20" .
 
 
-###  http://videogames.com/Guerrilla_Games
+###  http://www.videogames.com/Guerrilla_Games
 :Guerrilla_Games rdf:type owl:NamedIndividual ,
                           :Developer ;
                  :Developer_of :Decima ,
@@ -297,7 +306,7 @@
                  :name "Guerrilla Games" .
 
 
-###  http://videogames.com/Horizon_Zero_Dawn
+###  http://www.videogames.com/Horizon_Zero_Dawn
 :Horizon_Zero_Dawn rdf:type owl:NamedIndividual ,
                             :Videogame ;
                    :Developed_by :Guerrilla_Games ;
@@ -309,7 +318,7 @@
                    :release_date "2017-02-28" .
 
 
-###  http://videogames.com/Klei_Entertainment
+###  http://www.videogames.com/Klei_Entertainment
 :Klei_Entertainment rdf:type owl:NamedIndividual ,
                              :Developer ,
                              :Publisher ;
@@ -321,7 +330,7 @@
                     :name "Klei Entertainment" .
 
 
-###  http://videogames.com/Microsoft_Game_Studios
+###  http://www.videogames.com/Microsoft_Game_Studios
 :Microsoft_Game_Studios rdf:type owl:NamedIndividual ,
                                  :Publisher ;
                         owl:sameAs :Microsoft_Games ,
@@ -329,20 +338,20 @@
                                    :Xbox_Game_Studios .
 
 
-###  http://videogames.com/Microsoft_Games
+###  http://www.videogames.com/Microsoft_Games
 :Microsoft_Games rdf:type owl:NamedIndividual ,
                           :Publisher ;
                  owl:sameAs :Microsoft_Studios ,
                             :Xbox_Game_Studios .
 
 
-###  http://videogames.com/Microsoft_Studios
+###  http://www.videogames.com/Microsoft_Studios
 :Microsoft_Studios rdf:type owl:NamedIndividual ,
                             :Publisher ;
                    owl:sameAs :Xbox_Game_Studios .
 
 
-###  http://videogames.com/OGRE_3D
+###  http://www.videogames.com/OGRE_3D
 :OGRE_3D rdf:type owl:NamedIndividual ,
                   :GameEngine ;
          :Developed_by :Ogre_Team ;
@@ -352,14 +361,14 @@
          :release_date "2005-02" .
 
 
-###  http://videogames.com/Ogre_Team
+###  http://www.videogames.com/Ogre_Team
 :Ogre_Team rdf:type owl:NamedIndividual ,
                     :Developer ;
            :Developer_of :OGRE_3D ;
            :name "Ogre Team" .
 
 
-###  http://videogames.com/Oxygen_Not_Included
+###  http://www.videogames.com/Oxygen_Not_Included
 :Oxygen_Not_Included rdf:type owl:NamedIndividual ,
                               :Videogame ;
                      :Developed_by :Klei_Entertainment ;
@@ -371,7 +380,7 @@
                      :release_date "2019-07-30" .
 
 
-###  http://videogames.com/Runic_Games
+###  http://www.videogames.com/Runic_Games
 :Runic_Games rdf:type owl:NamedIndividual ,
                       :Developer ;
              :Developer_of :Torchlight ;
@@ -384,7 +393,7 @@
              :name "Runic Games" .
 
 
-###  http://videogames.com/Sony_Interactive_Entertainment
+###  http://www.videogames.com/Sony_Interactive_Entertainment
 :Sony_Interactive_Entertainment rdf:type owl:NamedIndividual ,
                                          :Publisher ;
                                 :Publisher_of :Horizon_Zero_Dawn ;
@@ -394,7 +403,7 @@
                                 :name "Sony Interactive Entertainment" .
 
 
-###  http://videogames.com/Torchlight
+###  http://www.videogames.com/Torchlight
 :Torchlight rdf:type owl:NamedIndividual ,
                      :Videogame ;
             :Developed_by :Runic_Games ;
@@ -407,10 +416,10 @@
             :release_date "2009-10-27" .
 
 
-###  http://videogames.com/Ubisoft
+###  http://www.videogames.com/Ubisoft
 :Ubisoft rdf:type owl:NamedIndividual ,
                   :Publisher ;
-         :Publisher_of <http://videogames.com/#Assassin's_Creed_Unity> ;
+         :Publisher_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
          :foundation_date "1986-03-28" ;
          :founder "Christian Guillemot" ,
                   "Claude Guillemot" ,
@@ -421,17 +430,17 @@
          :name "Ubisoft" .
 
 
-###  http://videogames.com/Ubisoft_Montreal
+###  http://www.videogames.com/Ubisoft_Montreal
 :Ubisoft_Montreal rdf:type owl:NamedIndividual ,
                            :Developer ;
-                  :Developer_of <http://videogames.com/#Assassin's_Creed_Unity> ;
+                  :Developer_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
                   :foundation_date "1997-04-25" ;
                   :founder "Ubisoft" ;
                   :location "Montreal, Canadá" ;
                   :name "Ubisoft Montreal" .
 
 
-###  http://videogames.com/Unity
+###  http://www.videogames.com/Unity
 :Unity rdf:type owl:NamedIndividual ,
                 :GameEngine ;
        :Developed_by :Unity_Technologies ;
@@ -441,7 +450,7 @@
        :release_date "2005-06-08" .
 
 
-###  http://videogames.com/Unity_Technologies
+###  http://www.videogames.com/Unity_Technologies
 :Unity_Technologies rdf:type owl:NamedIndividual ,
                              :Developer ;
                     :Developer_of :Unity ;
@@ -453,7 +462,7 @@
                     :name "Unity Technologies" .
 
 
-###  http://videogames.com/Unreal_Engine
+###  http://www.videogames.com/Unreal_Engine
 :Unreal_Engine rdf:type owl:NamedIndividual ,
                         :GameEngine ;
                :Developed_by :Epic_Games ;
@@ -463,7 +472,7 @@
                :release_date "1998-05" .
 
 
-###  http://videogames.com/Xbox_Game_Studios
+###  http://www.videogames.com/Xbox_Game_Studios
 :Xbox_Game_Studios rdf:type owl:NamedIndividual ,
                             :Publisher ;
                    :Publisher_of :Torchlight ;
@@ -473,17 +482,17 @@
                    :name "Microsoft Studios" .
 
 
-###  http://videogames.com/#Assassin's_Creed_Unity
-<http://videogames.com/#Assassin's_Creed_Unity> rdf:type owl:NamedIndividual ,
-                                                         :Videogame ;
-                                                :Developed_by :Ubisoft_Montreal ;
-                                                :Developed_in :Anvil_Next ;
-                                                :Published_by :Ubisoft ;
-                                                :genre "action" ,
-                                                       "adventure" ,
-                                                       "stealth" ;
-                                                :name "Assassin's Creed Unity" ;
-                                                :release_date "2014-11-11" .
+###  http://www.videogames.com/#Assassin's_Creed_Unity
+<http://www.videogames.com/#Assassin's_Creed_Unity> rdf:type owl:NamedIndividual ,
+                                                             :Videogame ;
+                                                    :Developed_by :Ubisoft_Montreal ;
+                                                    :Developed_in :Anvil_Next ;
+                                                    :Published_by :Ubisoft ;
+                                                    :genre "action" ,
+                                                           "adventure" ,
+                                                           "stealth" ;
+                                                    :name "Assassin's Creed Unity" ;
+                                                    :release_date "2014-11-11" .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
