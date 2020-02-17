@@ -87,7 +87,7 @@ public class InterfazInstancias extends Container implements ActionListener {
 			queryString += "?v"+i;
 		}
 		
-		queryString +="WHERE {?individual a <"+ entidad +"> .\r\n"
+		queryString +=" WHERE {?individual a <"+ entidad +"> .\r\n"
 			+ "?individual a owl:NamedIndividual.\r\n";
 		for (int i = 0; i < propertiesRDFOWL.size(); i++) {
 			queryString += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
@@ -103,14 +103,22 @@ public class InterfazInstancias extends Container implements ActionListener {
 		
 		//ConsultaRDF
 		try {
-			
-			ArrayList<QuerySolution> resultados2 = new RDFEndPoint().consulta("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+			String queryString2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
 					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
-					"SELECT DISTINCT ?n ?r\r\n" + 
-					"WHERE {\r\n" + 
-					"  ?n ?r <"+ entidad + ">.\r\n" +
-
-					"}");
+					"SELECT DISTINCT ?individual ";
+			
+			for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+				queryString2 += "?v"+i;
+			}
+			
+			queryString2 +=" WHERE {?individual rdfs:type <"+ entidad +"> .\r\n";
+			for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+				queryString2 += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
+			}
+				
+			queryString2 += "}";
+			
+			ArrayList<QuerySolution> resultados2 = new RDFEndPoint().consulta(queryString2);
 			for (int i = 0; i < resultados2.size(); i++) {
 				
 				String item = resultados2.get(i).toString();
@@ -128,10 +136,59 @@ public class InterfazInstancias extends Container implements ActionListener {
 		for (int i = 0; i < classEquivalents.size(); i++) {
 			String item = classEquivalents.get(i);
 			
+			//Consulta D2RQ
 			if(item.contains("http://localhost:2020/resource/vocab/") ) {
 				ArrayList<String> propertiesD2RQ = buscarProperties(item);
+				String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+						"SELECT DISTINCT ?individual ";
+				
+				for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+					queryString3 += "?v"+i1;
+				}
+				
+				queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+				for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+					queryString3 += "?individual <"+propertiesD2RQ.get(i1)+"> ?v"+i1+".\r\n";
+				}
+					
+				queryString3 += "}";
+				ArrayList<QuerySolution> resultados3 = new D2RQEndPoint().consulta(queryString3);
+				for (int i1 = 0; i1 < resultados3.size(); i1++) {
+					
+					String item1 = resultados3.get(i1).toString();
+					arreglo.add(item1);
+					System.out.println(item1);
+				}
+				
+			//Consulta DBPedia
 			}else if(item.contains("http://dbpedia.org/ontology/") ){
 				ArrayList<String> propertiesDBPedia = buscarProperties(item);
+				String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+						"SELECT DISTINCT ?individual ";
+				
+				for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+					queryString3 += "?v"+i1;
+				}
+				
+				queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+				for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+					if(propertiesDBPedia.get(i1).equals("rdfs:label")) {
+						queryString3 += "?individual "+propertiesDBPedia.get(i1)+" ?v"+i1+".\r\n";
+					}else {
+						queryString3 += "?individual <"+propertiesDBPedia.get(i1)+"> ?v"+i1+".\r\n";
+					}
+				}
+					
+				queryString3 += "} LIMIT 10";
+				ArrayList<QuerySolution> resultados3 = new DBPediaEndPoint().consulta(queryString3);
+				for (int i1 = 0; i1 < resultados3.size(); i1++) {
+					
+					String item1 = resultados3.get(i1).toString();
+					arreglo.add(item1);
+					System.out.println(item1);
+				}
 			}
 		}
 		
@@ -147,7 +204,7 @@ public class InterfazInstancias extends Container implements ActionListener {
 					"SELECT DISTINCT ?class\r\n" + 
 					"WHERE {?class a owl:Class.\n" + 
 					" ?class owl:equivalentClass <"+ entidad +">."+
-					"}");
+					"} ");
 			for (int i = 0; i < resultados.size(); i++) {
 				
 				String item = resultados.get(i).get("?class").toString();
@@ -176,8 +233,11 @@ public class InterfazInstancias extends Container implements ActionListener {
 			for (int i = 0; i < resultados.size(); i++) {
 				
 				String item = resultados.get(i).get("?n").toString();
-				arreglo.add(item);
-				System.out.println(item);
+				if(item.equals("https://www.w3.org/2000/01/rdf-schema#label")) {
+					arreglo.add("rdfs:label");
+				}else {
+					arreglo.add(item);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
