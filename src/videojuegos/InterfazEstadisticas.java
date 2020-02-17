@@ -132,7 +132,8 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 																						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"+
 																						"SELECT DISTINCT ?atr\r\n" + 
 																						"WHERE {\r\n" + 
-																						"  ?atr rdfs:domain <"+entidad+">\r\n" + 												
+																						"?atr rdfs:domain <"+entidad+"> ;\r\n" +
+																						"a owl:DatatypeProperty \r\n"+
 																						"}");
 			listaAtributos = new ComboItem[atributos.size()];
 			for (int i = 0; i < atributos.size(); i++) {
@@ -188,7 +189,7 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 		//consulta owl
 		String entidad = ((ComboItem)entidades.getSelectedItem()).getValue();
 		String atributo = ((ComboItem)atributos.getSelectedItem()).getValue(); 
-
+		System.out.println("For OWL---------------");
 		String qs = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
 					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
@@ -203,7 +204,7 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 		System.out.println(estadisticasOwl);
 		
 		//consulta rdf
-		
+		System.out.println("For RDF---------------");
 		String qs2 = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
@@ -223,25 +224,51 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 		
 		
 		ArrayList<String> clasesEquivalentes = buscarClasesEquivalentes(entidad);
-		System.out.println(clasesEquivalentes);
 		ArrayList<String> atributosEquivalentes = buscarPropiedadesEquivalentes(atributo);
-		System.out.println(atributosEquivalentes);
+		
 		for(int i = 0;i<clasesEquivalentes.size();i++) {
 			String clase = clasesEquivalentes.get(i);
-			if(clase.contains("http://dbpedia.org/ontology/")) {
+			if(clase.contains("http://dbpedia.org/ontology/")){
+				System.out.println("For DBPedia!---------------");
 				String qs3 ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
-							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
-							"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
-							"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
-				qs3 += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" + 
-						"WHERE {\r\n" +
-						"?ins a <"+clase+"> ;\r\n"+
-						"<"+atributo+"> ?valor \r\n"+
-						"}";
-				
-				
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
+						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n"+
+						"SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n"+
+						"WHERE {\r\n";
+				for (int j = 0; j<atributosEquivalentes.size();j++) {
+					String propiedad = atributosEquivalentes.get(j);
+					if(propiedad.equals("rdfs:label")) {
+						qs3+="?ins a <"+clase+"> .\r\n"+"?ins "+propiedad+" ?valor }";
+						ArrayList<QuerySolution> estadisticasDbPedia = new DBPediaEndPoint().consulta(qs3);
+						System.out.println(estadisticasDbPedia);
+					}
+					else if(propiedad.contains("http://dbpedia.org/")) {
+						qs3+="?ins a <"+clase+"> .\r\n"+
+								"?ins <"+propiedad+"> ?valor \r\n"+
+								"}";
+						ArrayList<QuerySolution> estadisticasDbPedia = new DBPediaEndPoint().consulta(qs3);
+						System.out.println(estadisticasDbPedia);
+					}
+				}							
 			}else if(clase.contains("http://localhost:2020/resource/vocab/")) {
-				
+				System.out.println("For d2rq----------------");
+				String qs4 ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
+						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n"+
+						"SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n"+
+						"WHERE {\r\n";
+				for (int j = 0; j<atributosEquivalentes.size();j++) {
+					String propiedad = atributosEquivalentes.get(j);
+					if(propiedad.contains("http://localhost:2020/resource/vocab/")) {
+						String qs5 = qs4+"?ins a <"+clase+"> ;\r\n"+
+								"<"+propiedad+"> ?valor \r\n"+
+								"}";
+						ArrayList<QuerySolution> estadisticasDbPedia = new D2RQEndPoint().consulta(qs5);
+						System.out.println(estadisticasDbPedia);
+					}
+				}
 			}
 		}
 		
@@ -282,7 +309,8 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 																					"{<"+atributo+"> owl:equivalentProperty ?class }\r\n"+
 																					"}");
 			for(int i=0;i<propiedades.size();i++) {
-				propiedadesEquivalentes.add(propiedades.get(i).getResource("class").toString());
+				if(propiedades.get(i).getResource("class").toString().equals("https://www.w3.org/2000/01/rdf-schema#label"))propiedadesEquivalentes.add("rdfs:label");
+				else propiedadesEquivalentes.add(propiedades.get(i).getResource("class").toString());
 			}
 		}catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
