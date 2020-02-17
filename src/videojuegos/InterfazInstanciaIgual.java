@@ -318,7 +318,30 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 		}
 			}
 		}
+		if(valores.isEmpty() == false) {
+			for(int k =0 ; k< valores.size();k++) {
 		
+		String queryR = "PREFIX vdo: <http://www.videogames.com/>\r\n"+
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"+
+				"SELECT DISTINCT ?individual ?found\r\n"+
+				"WHERE {\r\n"+
+					"?individual  rdf:type <"+ entidad +">.\r\n"+
+					"?individual  <"+ propiedad +"> ?found.\r\n"+
+					"FILTER(?found='"+valores.get(k)+"')\r\n"+
+				"}";
+		
+		try {
+			ArrayList<QuerySolution> busquedaRDF = new RDFEndPoint().consulta(queryR);
+			for(int j=0; j<busquedaRDF.size(); j++) {
+				consulta.add((busquedaRDF.get(j).get("?individual")).toString());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			}
+		}
 
 
 		for(int i = 0; i < entidades.size();i++) {
