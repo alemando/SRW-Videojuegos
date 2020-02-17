@@ -59,7 +59,23 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 				jcmbProperties.addItem(opciones[i]);
 			}
 			
-		}
+			jcmbInstancias.removeAllItems();
+			ComboItem[] opcionesI;
+			try {
+				opcionesI = itemsInstancias(((ComboItem) jcmbEntidades.getSelectedItem()).getValue());
+				for (int i= 0; i< opcionesI.length;i++) {
+					
+					jcmbInstancias.addItem(opcionesI[i]);
+				}
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+				
+			}
+			
+		
 		else if(e.getActionCommand().equals("Volver")) {
 			Main.frame.setContentPane(new InterfazPrincipal());
 		}else if(e.getActionCommand().equals("Buscar")) {
@@ -83,8 +99,11 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 			for (int i = 0; i < resultados.size(); i++) {
 				
 				String item = resultados.get(i).get("?n").toString();
-				arreglo.add(item);
-				System.out.println(item);
+				if(item.equals("https://www.w3.org/2000/01/rdf-schema#label")) {
+					arreglo.add("rdfs:label");
+				}else {
+					arreglo.add(item);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +125,7 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 					"  ?n a owl:DatatypeProperty .\r\n" +
 					"}");
 				arreglo = new ComboItem[resultados.size()+1];
-				arreglo[0] = new ComboItem("null", "Seleccione...");
+				arreglo[0] = new ComboItem("null", "Propiedades...");
 				for (int i = 0; i < resultados.size(); i++) {
 					
 				String item = resultados.get(i).get("?n").toString();
@@ -132,7 +151,7 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 					"  FILTER( STRSTARTS(STR(?class),str(vdo:)) )\r\n" + 
 					"}");
 			arreglo = new ComboItem[resultados.size()+1];
-			arreglo[0] = new ComboItem("null", "Seleccione...");
+			arreglo[0] = new ComboItem("null", "Entidades...");
 			for (int i = 0; i < resultados.size(); i++) {
 				
 				String item = resultados.get(i).get("?class").toString();
@@ -146,5 +165,28 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 		}
 		
 		return arreglo;
+	}
+	
+	public ComboItem[] itemsInstancias(String entidad) throws FileNotFoundException {
+		ComboItem[] arreglo = new ComboItem[0];
+		ArrayList<QuerySolution> resultados = new OWLVirtuosoEndPoint().consulta("PREFIX vdo: <http://www.videogames.com/>\r\n"+
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"+
+				//"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+	
+				"SELECT DISTINCT ?individual\r\n" + 
+				"WHERE {\r\n" + 
+				"?individual rdf:type <"+entidad+">.\r\n"+
+				"}");
+		arreglo = new ComboItem[resultados.size()+1];
+		arreglo[0] = new ComboItem("null", "Instancias...");
+		for (int i = 0; i < resultados.size(); i++) {
+			
+			String item = resultados.get(i).get("?individual").toString();
+			arreglo[(i+1)] = new ComboItem(item, item.replace("http://www.videogames.com/", ""));
+			
+			
+		}
+		
+		return arreglo;
+
 	}
 }
