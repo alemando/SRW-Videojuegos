@@ -99,14 +99,11 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 			atributos.addActionListener(this);
 		}else if(e.getActionCommand().equals("cambioAtributo")) {
 			String tipo = getTipo(((ComboItem) atributos.getSelectedItem()).getValue());
-			if(tipo.equals("http://www.w3.org/2001/XMLSchema#dateTimeStamp")) {
-				crearFiltro(0);
-			}else {
-				crearFiltro(1);
-			}
-		}else if(e.getActionCommand().equals("Volver")) {
-			Main.frame.setContentPane(new InterfazPrincipal());
-		}
+			if(tipo.equals("http://www.w3.org/2001/XMLSchema#dateTimeStamp")) crearFiltro(0);
+			else crearFiltro(1);
+		}else if(e.getActionCommand().equals("Volver")) Main.frame.setContentPane(new InterfazPrincipal());
+		else if(e.getActionCommand().equals("ConsultarN")) estadisticas(0);
+		else if(e.getActionCommand().equals("ConsultarS")) estadisticas(1);
 	}
 	
 	public ComboItem[] listarEntidades() {
@@ -186,17 +183,112 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 				break;
 		}
 	}
+	
+	public void estadisticas(int a){
+		//consulta owl
+		String entidad = ((ComboItem)entidades.getSelectedItem()).getValue();
+		String atributo = ((ComboItem)atributos.getSelectedItem()).getValue(); 
+
+		String qs = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
+					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
+		qs += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" + 
+				"WHERE {\r\n" +
+				"?ins a <"+entidad+"> ;\r\n"+
+				"<"+atributo+"> ?valor \r\n"+
+				"}";
+		
+		ArrayList<QuerySolution> estadisticasOwl = new OWLVirtuosoEndPoint().consulta(qs);
+		System.out.println(estadisticasOwl);
+		
+		//consulta rdf
+		
+		String qs2 = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
+					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
+		qs2 += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" +
+				"WHERE {\r\n"+
+				"?ins rdfs:type <"+entidad+"> ;\r\n"+
+				"<"+atributo+"> ?valor \r\n" +
+				"}"; 
+		
+		try {
+			ArrayList<QuerySolution> estadisticasRdf = new RDFEndPoint().consulta(qs2);
+			System.out.println(estadisticasRdf);
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		ArrayList<String> clasesEquivalentes = buscarClasesEquivalentes(entidad);
+		System.out.println(clasesEquivalentes);
+		ArrayList<String> atributosEquivalentes = buscarPropiedadesEquivalentes(atributo);
+		System.out.println(atributosEquivalentes);
+		for(int i = 0;i<clasesEquivalentes.size();i++) {
+			String clase = clasesEquivalentes.get(i);
+			if(clase.contains("http://dbpedia.org/ontology/")) {
+				String qs3 ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
+							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
+							"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+							"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
+				qs3 += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" + 
+						"WHERE {\r\n" +
+						"?ins a <"+clase+"> ;\r\n"+
+						"<"+atributo+"> ?valor \r\n"+
+						"}";
+				
+				
+			}else if(clase.contains("http://localhost:2020/resource/vocab/")) {
+				
+			}
+		}
+		
+		
+	}
+	
+	public ArrayList<String> buscarClasesEquivalentes (String entidad){
+		ArrayList<String> clasesEquivalentes = new ArrayList<String>();
+		try {
+			ArrayList<QuerySolution> clases = new RDFIntegracionEndPoint().consulta("PREFIX vdo: <http://videogames.com/>\r\n"+
+																					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+																					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"+
+																					"SELECT DISTINCT ?class\r\n" + 
+																					"WHERE {\r\n" +
+																					"?class a owl:Class ;"+
+																					"owl:equivalentClass <"+entidad+"> \r\n" + 												
+																					"}");
+			for(int i=0;i<clases.size();i++) {
+				clasesEquivalentes.add(clases.get(i).getResource("class").toString());
+			}
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}return clasesEquivalentes;
+		
+	}
+	
+	public ArrayList<String> buscarPropiedadesEquivalentes (String atributo){
+		ArrayList<String> propiedadesEquivalentes = new ArrayList<String>();
+		try {
+			ArrayList<QuerySolution> propiedades = new RDFIntegracionEndPoint().consulta("PREFIX vdo: <http://videogames.com/>\r\n"+
+																					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+																					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"+
+																					"SELECT DISTINCT ?class\r\n" + 
+																					"WHERE {\r\n" +
+																					"{?class owl:equivalentProperty <"+atributo+"> }\r\n"+
+																					"UNION\r\n"+
+																					"{<"+atributo+"> owl:equivalentProperty ?class }\r\n"+
+																					"}");
+			for(int i=0;i<propiedades.size();i++) {
+				propiedadesEquivalentes.add(propiedades.get(i).getResource("class").toString());
+			}
+		}catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}return propiedadesEquivalentes;
+		
+	}
 }
-
-
-/*
-Resource t = atributos.get(0).getResource("atr");
-
-ArrayList<QuerySolution> resultados =  RDFiend.consulta("PREFIX vdo: <http://videogames.com/>\r\n"+
-"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
-"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"+
-"SELECT DISTINCT ?atr\r\n" + 
-"WHERE {\r\n" + 
-"  ?atr rdfs:domain <"+r+">\r\n" + 												
-"}");*/
 
