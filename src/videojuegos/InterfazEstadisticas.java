@@ -18,22 +18,25 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 	JLabel latr,lent,titulo,Lfiltro,SL1;
 	JTextField T1;
 	JButton botonConsultarN,botonConsultarS,botonVolver;
+	JTextArea TA1;
+	JScrollPane JS1;
+	JPanel P1 ;
 	
     public InterfazEstadisticas() {
         
         setBackground(Color.WHITE);
         setLayout(null);  
         
-        titulo = new JLabel("<html><font size=7><center>ESTADISTICAS POR ATRIBUTO</center></font></html>");
-        titulo.setBounds(80, 10, 600, 50);
+        titulo = new JLabel("<html><font size=5><center>ESTADISTICAS POR ATRIBUTO</center></font></html>");
+        titulo.setBounds(200, 0, 600, 50);
         add(titulo);
 	    
         lent = new JLabel("Selecciona una entidad");
-        lent.setBounds(250,70 , 200, 60);
+        lent.setBounds(250,20 , 200, 50);
         add(lent);
         
         entidades = new JComboBox<ComboItem>(listarEntidades());
-        entidades.setBounds(250,120, 200, 50);
+        entidades.setBounds(250,60, 200, 50);
         entidades.setSelectedIndex(-1);
         entidades.setName("entidades");
         entidades.setActionCommand("cambioEntidad");
@@ -41,11 +44,11 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
         entidades.addActionListener(this);
         
         latr = new JLabel("Selecciona un atributo");
-        latr.setBounds(250,180 , 200, 60);
+        latr.setBounds(250,110 , 200, 50);
         add(latr);
         
         atributos = new JComboBox<ComboItem>();
-        atributos.setBounds(250,250, 200, 50);
+        atributos.setBounds(250,150, 200, 50);
         atributos.setSelectedIndex(-1);
         atributos.setName("atributos");
         atributos.setActionCommand("cambioAtributo");
@@ -53,26 +56,26 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
         atributos.addActionListener(this);
         
         Lfiltro = new JLabel("Si deseas puedes filtrar la consulta");
-        Lfiltro.setBounds(250,300,200,60);
+        Lfiltro.setBounds(250,200,200,40);
         
         SL1 = new JLabel("Que contenga: ");
-        SL1.setBounds(200,360,200,50);
+        SL1.setBounds(200,240,200,50);
         
         String [] opcionesFiltroNumero = {"Mayor que", "Menor que"};
         opcionFiltroNumero = new JComboBox<String>(opcionesFiltroNumero);
-        opcionFiltroNumero.setBounds(150,360, 150, 50);
+        opcionFiltroNumero.setBounds(150,240, 150, 50);
         opcionFiltroNumero.setSelectedIndex(-1);
         
-        T1 = new JTextField("Valor del filtro");
-        T1.setBounds(350, 360, 200, 50);
+        T1 = new JTextField();
+        T1.setBounds(350, 240, 200, 50);
         
         botonConsultarN = new JButton("Consultar");
-        botonConsultarN.setBounds(225, 490, 250, 50);
+        botonConsultarN.setBounds(225, 290, 250, 50);
         botonConsultarN.setActionCommand("ConsultarN");
         botonConsultarN.addActionListener(this);
         
         botonConsultarS = new JButton("Consultar");
-        botonConsultarS.setBounds(225, 490, 250, 50);
+        botonConsultarS.setBounds(225, 290, 250, 50);
         botonConsultarS.setActionCommand("ConsultarS");
         botonConsultarS.addActionListener(this);
         
@@ -81,6 +84,16 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
         add(botonVolver);
         botonVolver.addActionListener(this);
         
+        TA1 = new JTextArea(14,56);
+        JS1 = new JScrollPane(TA1);
+		JS1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		P1 = new JPanel();
+		P1.setBounds(1,340,700,250);
+		P1.add(JS1);
+		add(P1);
+        
+        
+		TA1.setEditable(false);
         //Para recargar las vistas
         SwingUtilities.updateComponentTreeUI(Main.frame);
 
@@ -186,37 +199,59 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 	}
 	
 	public void estadisticas(int a){
+		TA1.setEditable(true);
+		TA1.setText(TA1.getText()+"----------------------------------------------------------------Consultando-----------------------------------------------------------------\n");
+		String select="";
+		String filter=""; 
+		switch(a) {
+		case 0:
+			select = "SELECT DISTINCT (COUNT(?ins) as ?instancias) (AVG(xsd:integer(SUBSTR(REPLACE(STR(?valor),'[^0-9]',''),1,4))) as ?promedio) " +
+					"(MAX(xsd:integer(SUBSTR(REPLACE(STR(?valor),'[^0-9]',''),1,4))) as ?maximo) "+
+					"(MIN(xsd:integer(SUBSTR(REPLACE(STR(?valor),'[^0-9]',''),1,4))) as ?minimo)\r\n";
+			if(opcionFiltroNumero.getSelectedItem()==null)filter="";
+			else if(opcionFiltroNumero.getSelectedItem().toString()=="Menor que" && !(T1.getText().equals(""))) filter = "FILTER (xsd:integer(SUBSTR(REPLACE(STR(?valor),'[^0-9]',''),1,4)) < "+Integer.parseInt(T1.getText())+")";
+			else if(opcionFiltroNumero.getSelectedItem().toString()=="Mayor que" && !(T1.getText().equals(""))) filter = "FILTER (xsd:integer(SUBSTR(REPLACE(STR(?valor),'[^0-9]',''),1,4)) > "+Integer.parseInt(T1.getText())+") . \r\n";
+			break;
+		case 1:	
+			select = "SELECT DISTINCT (COUNT(?ins) as ?instancias) (AVG(STRLEN(STR(?valor))) as ?longitudPromedio)\r\n"; 
+			if(T1.getText().equals("")) filter="";				
+			else filter="FILTER REGEX(STR(?valor),'"+T1.getText()+"','i') .\r\n";
+			break;
+		}
+		
 		//consulta owl
 		String entidad = ((ComboItem)entidades.getSelectedItem()).getValue();
 		String atributo = ((ComboItem)atributos.getSelectedItem()).getValue(); 
-		System.out.println("For OWL---------------");
+		TA1.setText(TA1.getText()+"For OWL--------------------------------------------------------------\n");
 		String qs = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
 					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
-		qs += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" + 
-				"WHERE {\r\n" +
-				"?ins a <"+entidad+"> ;\r\n"+
-				"<"+atributo+"> ?valor \r\n"+
-				"}";
-		
+
+			qs += 	select + 
+					"WHERE {\r\n" +
+					"?ins a <"+entidad+"> ;\r\n"+
+					"<"+atributo+"> ?valor \r\n"+ 
+					filter +
+					"}";
 		ArrayList<QuerySolution> estadisticasOwl = new OWLVirtuosoEndPoint().consulta(qs);
-		System.out.println(estadisticasOwl);
+		TA1.setText(TA1.getText()+estadisticasOwl+"\n");
 		
 		//consulta rdf
-		System.out.println("For RDF---------------");
+		TA1.setText(TA1.getText()+"For RDF---------------------------------------------------------------\n");
 		String qs2 = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 					"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 					"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n";
-		qs2 += "SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n" +
-				"WHERE {\r\n"+
-				"?ins rdfs:type <"+entidad+"> ;\r\n"+
-				"<"+atributo+"> ?valor \r\n" +
-				"}"; 
-		
+	
+			qs2 += 	select+ 
+					"WHERE {\r\n" +
+					"?ins rdfs:type <"+entidad+"> ;\r\n"+
+					"<"+atributo+"> ?valor \r\n"+
+					filter +
+					"}";
 		try {
 			ArrayList<QuerySolution> estadisticasRdf = new RDFEndPoint().consulta(qs2);
-			System.out.println(estadisticasRdf);
+			TA1.setText(TA1.getText()+estadisticasRdf+"\n");
 		}catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -229,50 +264,56 @@ public class InterfazEstadisticas extends Container implements ActionListener  {
 		for(int i = 0;i<clasesEquivalentes.size();i++) {
 			String clase = clasesEquivalentes.get(i);
 			if(clase.contains("http://dbpedia.org/ontology/")){
-				System.out.println("For DBPedia!---------------");
+				TA1.setText(TA1.getText()+"For DBPedia------------------------------------------------------------\n");
 				String qs3 ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
 						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n"+
-						"SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n"+
+						select+
 						"WHERE {\r\n";
 				for (int j = 0; j<atributosEquivalentes.size();j++) {
 					String propiedad = atributosEquivalentes.get(j);
 					if(propiedad.equals("rdfs:label")) {
-						qs3+="?ins a <"+clase+"> .\r\n"+"?ins "+propiedad+" ?valor }";
+						qs3+="?ins a <"+clase+"> ;\r\n"+
+								" "+propiedad+" ?valor \r\n"+
+								filter+
+								"}";
 						ArrayList<QuerySolution> estadisticasDbPedia = new DBPediaEndPoint().consulta(qs3);
-						System.out.println(estadisticasDbPedia);
+						TA1.setText(TA1.getText()+estadisticasDbPedia+"\n");
 					}
 					else if(propiedad.contains("http://dbpedia.org/")) {
 						qs3+="?ins a <"+clase+"> .\r\n"+
 								"?ins <"+propiedad+"> ?valor \r\n"+
+								filter+
 								"}";
 						ArrayList<QuerySolution> estadisticasDbPedia = new DBPediaEndPoint().consulta(qs3);
-						System.out.println(estadisticasDbPedia);
+						TA1.setText(TA1.getText()+estadisticasDbPedia+"\n");
 					}
 				}							
 			}else if(clase.contains("http://localhost:2020/resource/vocab/")) {
-				System.out.println("For d2rq----------------");
+				TA1.setText(TA1.getText()+"For D2RQ----------------------------------------------------------------\n");
 				String qs4 ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + 
 						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
 						"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 						"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\r\n"+
-						"SELECT DISTINCT (COUNT(?ins) as ?instancias)\r\n"+
+						select+
 						"WHERE {\r\n";
 				for (int j = 0; j<atributosEquivalentes.size();j++) {
 					String propiedad = atributosEquivalentes.get(j);
 					if(propiedad.contains("http://localhost:2020/resource/vocab/")) {
 						String qs5 = qs4+"?ins a <"+clase+"> ;\r\n"+
 								"<"+propiedad+"> ?valor \r\n"+
+								filter+
 								"}";
-						ArrayList<QuerySolution> estadisticasDbPedia = new D2RQEndPoint().consulta(qs5);
-						System.out.println(estadisticasDbPedia);
+						ArrayList<QuerySolution> estadisticasD2RQ = new D2RQEndPoint().consulta(qs5);
+						TA1.setText(TA1.getText()+estadisticasD2RQ+"\n");
 					}
 				}
 			}
 		}
 		
-		
+		TA1.setText(TA1.getText()+"--------------------------------------------------------------------Terminado----------------------------------------------------------------------\n");
+		TA1.setEditable(false);
 	}
 	
 	public ArrayList<String> buscarClasesEquivalentes (String entidad){
