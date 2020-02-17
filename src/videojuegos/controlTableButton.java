@@ -41,6 +41,7 @@ public class controlTableButton implements ActionListener {
 			arreglo.add(item);
 			
 		}
+		arreglo.add("owl:sameAs");
 		
 		return arreglo;
 	}
@@ -49,12 +50,20 @@ public class controlTableButton implements ActionListener {
 		String mensaje = "Relaciones \n";
 		//Cosnsulta owl
 		for (int i = 0; i < relacion.size(); i++) {
-			ArrayList<QuerySolution> resultados = new OWLVirtuosoEndPoint().consulta("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+			String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
 					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
 					"SELECT DISTINCT ?valor\r\n" + 
-					"WHERE {\r\n" + 
-					"<"+ instancia+ ">  <"+ relacion.get(i) + "> ?valor .\r\n" +
-					"}");
+					"WHERE {\r\n";
+			
+					if(relacion.get(i).equals("owl:sameAs")) {
+						query += "<"+ instancia+ ">  "+ relacion.get(i) + " ?valor .\r\n";
+					}else {
+						query += "<"+ instancia+ ">  <"+ relacion.get(i) + "> ?valor .\r\n";
+					}
+					
+					query += "}";
+					
+			ArrayList<QuerySolution> resultados = new OWLVirtuosoEndPoint().consulta(query);
 			for (int i1 = 0; i1 < resultados.size(); i1++) {
 				
 				String item = resultados.get(i1).get("?valor").toString();

@@ -14,56 +14,56 @@
 #################################################################
 
 ###  http://www.videogames.com/Developed_by
-:Developed_by rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf owl:topObjectProperty ;
-              owl:inverseOf :Developer_of ;
-              rdf:type owl:AsymmetricProperty ;
-              rdfs:domain :GameEngine ,
-                          :Videogame ;
-              rdfs:range :Developer .
+vdo:Developed_by rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 owl:inverseOf vdo:Developer_of ;
+                 rdf:type owl:AsymmetricProperty ;
+                 rdfs:domain vdo:GameEngine ,
+                             vdo:Videogame ;
+                 rdfs:range vdo:Developer .
 
 
 ###  http://www.videogames.com/Developed_in
-:Developed_in rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf owl:topObjectProperty ;
-              owl:inverseOf :Used_in_develop_of ;
-              rdf:type owl:AsymmetricProperty ;
-              rdfs:domain :Videogame ;
-              rdfs:range :GameEngine .
+vdo:Developed_in rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 owl:inverseOf vdo:Used_in_develop_of ;
+                 rdf:type owl:AsymmetricProperty ;
+                 rdfs:domain vdo:Videogame ;
+                 rdfs:range vdo:GameEngine .
 
 
 ###  http://www.videogames.com/Developer_of
-:Developer_of rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf owl:topObjectProperty ;
-              rdf:type owl:AsymmetricProperty ;
-              rdfs:domain :Developer ;
-              rdfs:range :GameEngine ,
-                         :Videogame .
+vdo:Developer_of rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdf:type owl:AsymmetricProperty ;
+                 rdfs:domain vdo:Developer ;
+                 rdfs:range vdo:GameEngine ,
+                            vdo:Videogame .
 
 
 ###  http://www.videogames.com/Published_by
-:Published_by rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf owl:topObjectProperty ;
-              owl:inverseOf :Publisher_of ;
-              rdf:type owl:AsymmetricProperty ;
-              rdfs:domain :Videogame ;
-              rdfs:range :Publisher .
+vdo:Published_by rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 owl:inverseOf vdo:Publisher_of ;
+                 rdf:type owl:AsymmetricProperty ;
+                 rdfs:domain vdo:Videogame ;
+                 rdfs:range vdo:Publisher .
 
 
 ###  http://www.videogames.com/Publisher_of
-:Publisher_of rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf owl:topObjectProperty ;
-              rdf:type owl:AsymmetricProperty ;
-              rdfs:domain :Publisher ;
-              rdfs:range :Videogame .
+vdo:Publisher_of rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdf:type owl:AsymmetricProperty ;
+                 rdfs:domain vdo:Publisher ;
+                 rdfs:range vdo:Videogame .
 
 
 ###  http://www.videogames.com/Used_in_develop_of
-:Used_in_develop_of rdf:type owl:ObjectProperty ;
-                    rdfs:subPropertyOf owl:topObjectProperty ;
-                    rdf:type owl:AsymmetricProperty ;
-                    rdfs:domain :GameEngine ;
-                    rdfs:range :Videogame .
+vdo:Used_in_develop_of rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf owl:topObjectProperty ;
+                       rdf:type owl:AsymmetricProperty ;
+                       rdfs:domain vdo:GameEngine ;
+                       rdfs:range vdo:Videogame .
 
 
 #################################################################
@@ -71,59 +71,59 @@
 #################################################################
 
 ###  http://www.videogames.com/foundation_date
-:foundation_date rdf:type owl:DatatypeProperty ;
-                 rdfs:subPropertyOf owl:topDataProperty ;
-                 rdfs:domain :Company ,
-                             :Developer ,
-                             :Publisher ;
-                 rdfs:range xsd:dateTimeStamp .
+vdo:foundation_date rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain vdo:Company ,
+                                vdo:Developer ,
+                                vdo:Publisher ;
+                    rdfs:range xsd:dateTimeStamp .
 
 
 ###  http://www.videogames.com/founder
-:founder rdf:type owl:DatatypeProperty ;
-         rdfs:domain :Company ,
-                     :Developer ,
-                     :Publisher ;
-         rdfs:range xsd:string .
+vdo:founder rdf:type owl:DatatypeProperty ;
+            rdfs:domain vdo:Company ,
+                        vdo:Developer ,
+                        vdo:Publisher ;
+            rdfs:range xsd:string .
 
 
 ###  http://www.videogames.com/genre
-:genre rdf:type owl:DatatypeProperty ;
-       rdfs:subPropertyOf owl:topDataProperty ;
-       rdfs:domain :Videogame ;
-       rdfs:range xsd:string .
-
-
-###  http://www.videogames.com/license
-:license rdf:type owl:DatatypeProperty ;
-         rdfs:subPropertyOf owl:topDataProperty ;
-         rdfs:domain :GameEngine ;
-         rdfs:range xsd:string .
-
-
-###  http://www.videogames.com/location
-:location rdf:type owl:DatatypeProperty ;
-          rdfs:domain :Company ,
-                      :Developer ,
-                      :Publisher ;
+vdo:genre rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
+          rdfs:domain vdo:Videogame ;
           rdfs:range xsd:string .
 
 
+###  http://www.videogames.com/license
+vdo:license rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain vdo:GameEngine ;
+            rdfs:range xsd:string .
+
+
+###  http://www.videogames.com/location
+vdo:location rdf:type owl:DatatypeProperty ;
+             rdfs:domain vdo:Company ,
+                         vdo:Developer ,
+                         vdo:Publisher ;
+             rdfs:range xsd:string .
+
+
 ###  http://www.videogames.com/name
-:name rdf:type owl:DatatypeProperty ;
-      rdfs:domain :Company ,
-                  :Developer ,
-                  :GameEngine ,
-                  :Publisher ,
-                  :Videogame ;
-      rdfs:range xsd:string .
+vdo:name rdf:type owl:DatatypeProperty ;
+         rdfs:domain vdo:Company ,
+                     vdo:Developer ,
+                     vdo:GameEngine ,
+                     vdo:Publisher ,
+                     vdo:Videogame ;
+         rdfs:range xsd:string .
 
 
 ###  http://www.videogames.com/release_date
-:release_date rdf:type owl:DatatypeProperty ;
-              rdfs:domain :GameEngine ,
-                          :Videogame ;
-              rdfs:range xsd:dateTimeStamp .
+vdo:release_date rdf:type owl:DatatypeProperty ;
+                 rdfs:domain vdo:GameEngine ,
+                             vdo:Videogame ;
+                 rdfs:range xsd:dateTimeStamp .
 
 
 #################################################################
@@ -131,25 +131,25 @@
 #################################################################
 
 ###  http://www.videogames.com/Company
-:Company rdf:type owl:Class .
+vdo:Company rdf:type owl:Class .
 
 
 ###  http://www.videogames.com/Developer
-:Developer rdf:type owl:Class ;
-           rdfs:subClassOf :Company .
+vdo:Developer rdf:type owl:Class ;
+              rdfs:subClassOf vdo:Company .
 
 
 ###  http://www.videogames.com/GameEngine
-:GameEngine rdf:type owl:Class .
+vdo:GameEngine rdf:type owl:Class .
 
 
 ###  http://www.videogames.com/Publisher
-:Publisher rdf:type owl:Class ;
-           rdfs:subClassOf :Company .
+vdo:Publisher rdf:type owl:Class ;
+              rdfs:subClassOf vdo:Company .
 
 
 ###  http://www.videogames.com/Videogame
-:Videogame rdf:type owl:Class .
+vdo:Videogame rdf:type owl:Class .
 
 
 #################################################################
@@ -157,342 +157,354 @@
 #################################################################
 
 ###  http://www.videogames.com/Anthem
-:Anthem rdf:type owl:NamedIndividual ,
-                 :Videogame ;
-        :Developed_by :BioWare ;
-        :Developed_in :Frostbite ;
-        :Published_by :Electronic_Arts ;
-        :genre "Action" ,
-               "role-playing" ;
-        :name "Anthem" ;
-        :release_date "2019-02-22" .
+vdo:Anthem rdf:type owl:NamedIndividual ,
+                    vdo:Videogame ;
+           vdo:Developed_by vdo:BioWare ;
+           vdo:Developed_in vdo:Frostbite ;
+           vdo:Published_by vdo:Electronic_Arts ;
+           vdo:genre "Action" ,
+                     "role-playing" ;
+           vdo:name "Anthem" ;
+           vdo:release_date "2019-02-22" .
 
 
 ###  http://www.videogames.com/Anvil_Next
-:Anvil_Next rdf:type owl:NamedIndividual ,
-                     :GameEngine ;
-            :Developed_by :Ubisoft_Montreal ;
-            :Used_in_develop_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
-            :license "Proprietary" ;
-            :name "Anvil Next" ;
-            :release_date 2007 .
+vdo:Anvil_Next rdf:type owl:NamedIndividual ,
+                        vdo:GameEngine ;
+               vdo:Developed_by vdo:Ubisoft_Montreal ;
+               vdo:Used_in_develop_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
+               vdo:license "Proprietary" ;
+               vdo:name "Anvil Next" ;
+               vdo:release_date 2007 .
 
 
 ###  http://www.videogames.com/BioWare
-:BioWare rdf:type owl:NamedIndividual ,
-                  :Developer ;
-         :Developer_of :Anthem ;
-         :foundation_date "1995-02-01" ;
-         :founder "Augustine Yip" ,
-                  "Brent Oster" ,
-                  "Greg Zeschuk" ,
-                  "Marcel Zeschuk" ,
-                  "Ray Muzyka" ,
-                  "Trent Oster" ;
-         :location "Edmonton, Alberta, Canada" ;
-         :name "BioWare" .
+vdo:BioWare rdf:type owl:NamedIndividual ,
+                     vdo:Developer ;
+            vdo:Developer_of vdo:Anthem ;
+            vdo:foundation_date "1995-02-01" ;
+            vdo:founder "Augustine Yip" ,
+                        "Brent Oster" ,
+                        "Greg Zeschuk" ,
+                        "Marcel Zeschuk" ,
+                        "Ray Muzyka" ,
+                        "Trent Oster" ;
+            vdo:location "Edmonton, Alberta, Canada" ;
+            vdo:name "BioWare" .
 
 
 ###  http://www.videogames.com/CryEngine
-:CryEngine rdf:type owl:NamedIndividual ,
-                    :GameEngine ;
-           :Developed_by :Crytek ;
-           :Used_in_develop_of :Far_Cry ;
-           :license "Source-available commercial software with royalty model for commercial use" ;
-           :name "CryEngine" ;
-           :release_date "2002-05-02" .
+vdo:CryEngine rdf:type owl:NamedIndividual ,
+                       vdo:GameEngine ;
+              vdo:Developed_by vdo:Crytek ;
+              vdo:Used_in_develop_of vdo:Far_Cry ;
+              vdo:license "Source-available commercial software with royalty model for commercial use" ;
+              vdo:name "CryEngine" ;
+              vdo:release_date "2002-05-02" .
 
 
 ###  http://www.videogames.com/Crytek
-:Crytek rdf:type owl:NamedIndividual ,
-                 :Developer ;
-        :Developer_of :CryEngine ,
-                      :Far_Cry ;
-        :foundation_date "1999-09" ;
-        :founder "Avni Yerli" ,
-                 "Cevat Yerli" ,
-                 "Faruk Yerli" ;
-        :location "Frankfurt, Germany" ;
-        :name "Crytek" .
+vdo:Crytek rdf:type owl:NamedIndividual ,
+                    vdo:Developer ;
+           vdo:Developer_of vdo:CryEngine ,
+                            vdo:Far_Cry ;
+           vdo:foundation_date "1999-09" ;
+           vdo:founder "Avni Yerli" ,
+                       "Cevat Yerli" ,
+                       "Faruk Yerli" ;
+           vdo:location "Frankfurt, Germany" ;
+           vdo:name "Crytek" .
 
 
 ###  http://www.videogames.com/DICE
-:DICE rdf:type owl:NamedIndividual ,
-               :Developer ;
-      :Developer_of :Frostbite ;
-      :foundation_date "1992-27" ;
-      :founder "Andreas Axelsson" ,
-               "Fredrik Liljegren" ,
-               "Markus Nyström" ,
-               "Olof Gustafsson" ;
-      :location "Stockholm, Sweden" ;
-      :name "DICE" .
+vdo:DICE rdf:type owl:NamedIndividual ,
+                  vdo:Developer ;
+         vdo:Developer_of vdo:Frostbite ;
+         vdo:foundation_date "1992-27" ;
+         vdo:founder "Andreas Axelsson" ,
+                     "Fredrik Liljegren" ,
+                     "Markus Nyström" ,
+                     "Olof Gustafsson" ;
+         vdo:location "Stockholm, Sweden" ;
+         vdo:name "DICE" .
 
 
 ###  http://www.videogames.com/Decima
-:Decima rdf:type owl:NamedIndividual ,
-                 :GameEngine ;
-        :Developed_by :Guerrilla_Games ;
-        :Used_in_develop_of :Horizon_Zero_Dawn ;
-        :license "Proprietary" ;
-        :name "Decima" ;
-        :release_date "2013-11-15" .
+vdo:Decima rdf:type owl:NamedIndividual ,
+                    vdo:GameEngine ;
+           vdo:Developed_by vdo:Guerrilla_Games ;
+           vdo:Used_in_develop_of vdo:Horizon_Zero_Dawn ;
+           vdo:license "Proprietary" ;
+           vdo:name "Decima" ;
+           vdo:release_date "2013-11-15" .
 
 
 ###  http://www.videogames.com/Electronic_Arts
-:Electronic_Arts rdf:type owl:NamedIndividual ,
-                          :Publisher ;
-                 :Publisher_of :Anthem ;
-                 :foundation_date "1982-05-27" ;
-                 :founder "Trip Hawkins" ;
-                 :location "Redwood City, California, US" ;
-                 :name "Electronic Arts" .
+vdo:Electronic_Arts rdf:type owl:NamedIndividual ,
+                             vdo:Publisher ;
+                    vdo:Publisher_of vdo:Anthem ;
+                    vdo:foundation_date "1982-05-27" ;
+                    vdo:founder "Trip Hawkins" ;
+                    vdo:location "Redwood City, California, US" ;
+                    vdo:name "Electronic Arts" .
 
 
 ###  http://www.videogames.com/Epic_Games
-:Epic_Games rdf:type owl:NamedIndividual ,
-                     :Developer ;
-            :Developer_of :Gears_of_War_3 ,
-                          :Unreal_Engine ;
-            :foundation_date 1991 ,
-                             "Cary, North Carolina, US" ;
-            :founder "Tim Sweeney" ;
-            :name "Epic Games" .
+vdo:Epic_Games rdf:type owl:NamedIndividual ,
+                        vdo:Developer ;
+               vdo:Developer_of vdo:Gears_of_War_3 ,
+                                vdo:Unreal_Engine ;
+               vdo:foundation_date 1991 ,
+                                   "Cary, North Carolina, US" ;
+               vdo:founder "Tim Sweeney" ;
+               vdo:name "Epic Games" .
 
 
 ###  http://www.videogames.com/Far_Cry
-:Far_Cry rdf:type owl:NamedIndividual ,
-                  :Videogame ;
-         :Developed_by :Crytek ;
-         :Developed_in :CryEngine ;
-         :Published_by :Ubisoft ;
-         :genre "First-person shooter" ;
-         :name "Far Cry" ;
-         :release_date "2004-03-23" .
+vdo:Far_Cry rdf:type owl:NamedIndividual ,
+                     vdo:Videogame ;
+            vdo:Developed_by vdo:Crytek ;
+            vdo:Developed_in vdo:CryEngine ;
+            vdo:Published_by vdo:Ubisoft ;
+            vdo:genre "First-person shooter" ;
+            vdo:name "Far Cry" ;
+            vdo:release_date "2004-03-23" .
 
 
 ###  http://www.videogames.com/Frostbite
-:Frostbite rdf:type owl:NamedIndividual ,
-                    :GameEngine ;
-           :Developed_by :DICE ;
-           :Used_in_develop_of :Anthem ;
-           :foundation_date "2008-06" ;
-           :license "Proprietary" ;
-           :name "Frostbite" .
+vdo:Frostbite rdf:type owl:NamedIndividual ,
+                       vdo:GameEngine ;
+              vdo:Developed_by vdo:DICE ;
+              vdo:Used_in_develop_of vdo:Anthem ;
+              vdo:foundation_date "2008-06" ;
+              vdo:license "Proprietary" ;
+              vdo:name "Frostbite" .
 
 
 ###  http://www.videogames.com/Gears_of_War_3
-:Gears_of_War_3 rdf:type owl:NamedIndividual ,
-                         :Videogame ;
-                :Developed_by :Epic_Games ;
-                :Developed_in :Unreal_Engine ;
-                :Published_by :Microsoft_Studios ;
-                :genre "Third-person shooter" ;
-                :name "Gears of War 3" ;
-                :release_date "2011-09-20" .
+vdo:Gears_of_War_3 rdf:type owl:NamedIndividual ,
+                            vdo:Videogame ;
+                   vdo:Developed_by vdo:Epic_Games ;
+                   vdo:Developed_in vdo:Unreal_Engine ;
+                   vdo:Published_by vdo:Microsoft_Studios ;
+                   vdo:genre "Third-person shooter" ;
+                   vdo:name "Gears of War 3" ;
+                   vdo:release_date "2011-09-20" .
 
 
 ###  http://www.videogames.com/Guerrilla_Games
-:Guerrilla_Games rdf:type owl:NamedIndividual ,
-                          :Developer ;
-                 :Developer_of :Decima ,
-                               :Horizon_Zero_Dawn ;
-                 :foundation_date "2000-01-01" ;
-                 :founder "Arjan Brussee" ,
-                          "Arnout van der Kamp" ,
-                          "Martin de Ronde" ,
-                          "Michiel Mol" ;
-                 :location "Amsterdam, Netherlands" ;
-                 :name "Guerrilla Games" .
+vdo:Guerrilla_Games rdf:type owl:NamedIndividual ,
+                             vdo:Developer ;
+                    vdo:Developer_of vdo:Decima ,
+                                     vdo:Horizon_Zero_Dawn ;
+                    vdo:foundation_date "2000-01-01" ;
+                    vdo:founder "Arjan Brussee" ,
+                                "Arnout van der Kamp" ,
+                                "Martin de Ronde" ,
+                                "Michiel Mol" ;
+                    vdo:location "Amsterdam, Netherlands" ;
+                    vdo:name "Guerrilla Games" .
 
 
 ###  http://www.videogames.com/Horizon_Zero_Dawn
-:Horizon_Zero_Dawn rdf:type owl:NamedIndividual ,
-                            :Videogame ;
-                   :Developed_by :Guerrilla_Games ;
-                   :Developed_in :Decima ;
-                   :Published_by :Sony_Interactive_Entertainment ;
-                   :genre "Action" ,
-                          "role-playing" ;
-                   :name "Horizon Zero Dawn" ;
-                   :release_date "2017-02-28" .
+vdo:Horizon_Zero_Dawn rdf:type owl:NamedIndividual ,
+                               vdo:Videogame ;
+                      vdo:Developed_by vdo:Guerrilla_Games ;
+                      vdo:Developed_in vdo:Decima ;
+                      vdo:Published_by vdo:Sony_Interactive_Entertainment ;
+                      vdo:genre "Action" ,
+                                "role-playing" ;
+                      vdo:name "Horizon Zero Dawn" ;
+                      vdo:release_date "2017-02-28" .
 
 
 ###  http://www.videogames.com/Klei_Entertainment
-:Klei_Entertainment rdf:type owl:NamedIndividual ,
-                             :Developer ,
-                             :Publisher ;
-                    :Developer_of :Oxygen_Not_Included ;
-                    :Publisher_of :Oxygen_Not_Included ;
-                    :foundation_date "2005-07" ;
-                    :founder "Jamie Cheng" ;
-                    :location "Vancouver" ;
-                    :name "Klei Entertainment" .
+vdo:Klei_Entertainment rdf:type owl:NamedIndividual ,
+                                vdo:Developer ,
+                                vdo:Publisher ;
+                       vdo:Developer_of vdo:Oxygen_Not_Included ;
+                       vdo:Publisher_of vdo:Oxygen_Not_Included ;
+                       vdo:foundation_date "2005-07" ;
+                       vdo:founder "Jamie Cheng" ;
+                       vdo:location "Vancouver" ;
+                       vdo:name "Klei Entertainment" .
 
 
 ###  http://www.videogames.com/Microsoft_Game_Studios
-:Microsoft_Game_Studios rdf:type owl:NamedIndividual ,
-                                 :Publisher ;
-                        owl:sameAs :Microsoft_Games ,
-                                   :Microsoft_Studios ,
-                                   :Xbox_Game_Studios .
+vdo:Microsoft_Game_Studios rdf:type owl:NamedIndividual ,
+                                    vdo:Publisher ;
+                           owl:sameAs vdo:Microsoft_Games ,
+                                      vdo:Microsoft_Studios ,
+                                      vdo:Xbox_Game_Studios ;
+                           vdo:foundation_date "2002-01-01" ;
+                           vdo:founder "Bill Gates" ;
+                           vdo:location "United States" ;
+                           vdo:name "Microsoft Game Studios" .
 
 
 ###  http://www.videogames.com/Microsoft_Games
-:Microsoft_Games rdf:type owl:NamedIndividual ,
-                          :Publisher ;
-                 owl:sameAs :Microsoft_Studios ,
-                            :Xbox_Game_Studios .
+vdo:Microsoft_Games rdf:type owl:NamedIndividual ,
+                             vdo:Publisher ;
+                    owl:sameAs vdo:Microsoft_Studios ,
+                               vdo:Xbox_Game_Studios ;
+                    vdo:foundation_date "2002-01-01" ;
+                    vdo:founder "Bill Gates" ;
+                    vdo:location "United States" ;
+                    vdo:name "Microsoft Games" .
 
 
 ###  http://www.videogames.com/Microsoft_Studios
-:Microsoft_Studios rdf:type owl:NamedIndividual ,
-                            :Publisher ;
-                   owl:sameAs :Xbox_Game_Studios .
+vdo:Microsoft_Studios rdf:type owl:NamedIndividual ,
+                               vdo:Publisher ;
+                      owl:sameAs vdo:Xbox_Game_Studios ;
+                      vdo:foundation_date "2002-01-01" ;
+                      vdo:founder "Bill Gates" ;
+                      vdo:location "United States" ;
+                      vdo:name "Microsoft Studios" .
 
 
 ###  http://www.videogames.com/OGRE_3D
-:OGRE_3D rdf:type owl:NamedIndividual ,
-                  :GameEngine ;
-         :Developed_by :Ogre_Team ;
-         :Used_in_develop_of :Torchlight ;
-         :license "MIT" ;
-         :name "OGRE 3D" ;
-         :release_date "2005-02" .
+vdo:OGRE_3D rdf:type owl:NamedIndividual ,
+                     vdo:GameEngine ;
+            vdo:Developed_by vdo:Ogre_Team ;
+            vdo:Used_in_develop_of vdo:Torchlight ;
+            vdo:license "MIT" ;
+            vdo:name "OGRE 3D" ;
+            vdo:release_date "2005-02" .
 
 
 ###  http://www.videogames.com/Ogre_Team
-:Ogre_Team rdf:type owl:NamedIndividual ,
-                    :Developer ;
-           :Developer_of :OGRE_3D ;
-           :name "Ogre Team" .
+vdo:Ogre_Team rdf:type owl:NamedIndividual ,
+                       vdo:Developer ;
+              vdo:Developer_of vdo:OGRE_3D ;
+              vdo:name "Ogre Team" .
 
 
 ###  http://www.videogames.com/Oxygen_Not_Included
-:Oxygen_Not_Included rdf:type owl:NamedIndividual ,
-                              :Videogame ;
-                     :Developed_by :Klei_Entertainment ;
-                     :Developed_in :Unity ;
-                     :Published_by :Klei_Entertainment ;
-                     :genre "simulation" ,
-                            "survival" ;
-                     :name "Oxygen Not Included" ;
-                     :release_date "2019-07-30" .
+vdo:Oxygen_Not_Included rdf:type owl:NamedIndividual ,
+                                 vdo:Videogame ;
+                        vdo:Developed_by vdo:Klei_Entertainment ;
+                        vdo:Developed_in vdo:Unity ;
+                        vdo:Published_by vdo:Klei_Entertainment ;
+                        vdo:genre "simulation" ,
+                                  "survival" ;
+                        vdo:name "Oxygen Not Included" ;
+                        vdo:release_date "2019-07-30" .
 
 
 ###  http://www.videogames.com/Runic_Games
-:Runic_Games rdf:type owl:NamedIndividual ,
-                      :Developer ;
-             :Developer_of :Torchlight ;
-             :foundation_date "2008-08-11" ;
-             :founder "Erich Schaefer" ,
-                      "Max Schaefer" ,
-                      "Peter Hu" ,
-                      "Travis Baldree" ;
-             :location "Seattle, Washington" ;
-             :name "Runic Games" .
+vdo:Runic_Games rdf:type owl:NamedIndividual ,
+                         vdo:Developer ;
+                vdo:Developer_of vdo:Torchlight ;
+                vdo:foundation_date "2008-08-11" ;
+                vdo:founder "Erich Schaefer" ,
+                            "Max Schaefer" ,
+                            "Peter Hu" ,
+                            "Travis Baldree" ;
+                vdo:location "Seattle, Washington" ;
+                vdo:name "Runic Games" .
 
 
 ###  http://www.videogames.com/Sony_Interactive_Entertainment
-:Sony_Interactive_Entertainment rdf:type owl:NamedIndividual ,
-                                         :Publisher ;
-                                :Publisher_of :Horizon_Zero_Dawn ;
-                                :foundation_date "1993-11-16" ;
-                                :founder "Ken Kutaragi" ;
-                                :location "San Mateo, California, United States" ;
-                                :name "Sony Interactive Entertainment" .
+vdo:Sony_Interactive_Entertainment rdf:type owl:NamedIndividual ,
+                                            vdo:Publisher ;
+                                   vdo:Publisher_of vdo:Horizon_Zero_Dawn ;
+                                   vdo:foundation_date "1993-11-16" ;
+                                   vdo:founder "Ken Kutaragi" ;
+                                   vdo:location "San Mateo, California, United States" ;
+                                   vdo:name "Sony Interactive Entertainment" .
 
 
 ###  http://www.videogames.com/Torchlight
-:Torchlight rdf:type owl:NamedIndividual ,
-                     :Videogame ;
-            :Developed_by :Runic_Games ;
-            :Developed_in :OGRE_3D ;
-            :Published_by :Xbox_Game_Studios ;
-            :genre "Action" ,
-                   "hack and slash" ,
-                   "role-playing" ;
-            :name "Torchlight" ;
-            :release_date "2009-10-27" .
+vdo:Torchlight rdf:type owl:NamedIndividual ,
+                        vdo:Videogame ;
+               vdo:Developed_by vdo:Runic_Games ;
+               vdo:Developed_in vdo:OGRE_3D ;
+               vdo:Published_by vdo:Xbox_Game_Studios ;
+               vdo:genre "Action" ,
+                         "hack and slash" ,
+                         "role-playing" ;
+               vdo:name "Torchlight" ;
+               vdo:release_date "2009-10-27" .
 
 
 ###  http://www.videogames.com/Ubisoft
-:Ubisoft rdf:type owl:NamedIndividual ,
-                  :Publisher ;
-         :Publisher_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
-         :foundation_date "1986-03-28" ;
-         :founder "Christian Guillemot" ,
-                  "Claude Guillemot" ,
-                  "Gérard Guillemot" ,
-                  "Michel Guillemot" ,
-                  "Yves Guillemot" ;
-         :location "Montreuil, Paris, France" ;
-         :name "Ubisoft" .
+vdo:Ubisoft rdf:type owl:NamedIndividual ,
+                     vdo:Publisher ;
+            vdo:Publisher_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
+            vdo:foundation_date "1986-03-28" ;
+            vdo:founder "Christian Guillemot" ,
+                        "Claude Guillemot" ,
+                        "Gérard Guillemot" ,
+                        "Michel Guillemot" ,
+                        "Yves Guillemot" ;
+            vdo:location "Montreuil, Paris, France" ;
+            vdo:name "Ubisoft" .
 
 
 ###  http://www.videogames.com/Ubisoft_Montreal
-:Ubisoft_Montreal rdf:type owl:NamedIndividual ,
-                           :Developer ;
-                  :Developer_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
-                  :foundation_date "1997-04-25" ;
-                  :founder "Ubisoft" ;
-                  :location "Montreal, Canadá" ;
-                  :name "Ubisoft Montreal" .
+vdo:Ubisoft_Montreal rdf:type owl:NamedIndividual ,
+                              vdo:Developer ;
+                     vdo:Developer_of <http://www.videogames.com/#Assassin's_Creed_Unity> ;
+                     vdo:foundation_date "1997-04-25" ;
+                     vdo:founder "Ubisoft" ;
+                     vdo:location "Montreal, Canadá" ;
+                     vdo:name "Ubisoft Montreal" .
 
 
 ###  http://www.videogames.com/Unity
-:Unity rdf:type owl:NamedIndividual ,
-                :GameEngine ;
-       :Developed_by :Unity_Technologies ;
-       :Used_in_develop_of :Oxygen_Not_Included ;
-       :license "Proprietary software" ;
-       :name "Unity" ;
-       :release_date "2005-06-08" .
+vdo:Unity rdf:type owl:NamedIndividual ,
+                   vdo:GameEngine ;
+          vdo:Developed_by vdo:Unity_Technologies ;
+          vdo:Used_in_develop_of vdo:Oxygen_Not_Included ;
+          vdo:license "Proprietary software" ;
+          vdo:name "Unity" ;
+          vdo:release_date "2005-06-08" .
 
 
 ###  http://www.videogames.com/Unity_Technologies
-:Unity_Technologies rdf:type owl:NamedIndividual ,
-                             :Developer ;
-                    :Developer_of :Unity ;
-                    :foundation_date 2004 ;
-                    :founder "David Helgason" ,
-                             "Joachim Ante" ,
-                             "Nicholas Francis" ;
-                    :location "Copenhagen, Denmark" ;
-                    :name "Unity Technologies" .
+vdo:Unity_Technologies rdf:type owl:NamedIndividual ,
+                                vdo:Developer ;
+                       vdo:Developer_of vdo:Unity ;
+                       vdo:foundation_date 2004 ;
+                       vdo:founder "David Helgason" ,
+                                   "Joachim Ante" ,
+                                   "Nicholas Francis" ;
+                       vdo:location "Copenhagen, Denmark" ;
+                       vdo:name "Unity Technologies" .
 
 
 ###  http://www.videogames.com/Unreal_Engine
-:Unreal_Engine rdf:type owl:NamedIndividual ,
-                        :GameEngine ;
-               :Developed_by :Epic_Games ;
-               :Used_in_develop_of :Gears_of_War_3 ;
-               :license "Source-available commercial software with royalty model for commercial use" ;
-               :name "Unreal Engine" ;
-               :release_date "1998-05" .
+vdo:Unreal_Engine rdf:type owl:NamedIndividual ,
+                           vdo:GameEngine ;
+                  vdo:Developed_by vdo:Epic_Games ;
+                  vdo:Used_in_develop_of vdo:Gears_of_War_3 ;
+                  vdo:license "Source-available commercial software with royalty model for commercial use" ;
+                  vdo:name "Unreal Engine" ;
+                  vdo:release_date "1998-05" .
 
 
 ###  http://www.videogames.com/Xbox_Game_Studios
-:Xbox_Game_Studios rdf:type owl:NamedIndividual ,
-                            :Publisher ;
-                   :Publisher_of :Torchlight ;
-                   :foundation_date "2000-03" ;
-                   :founder "Microsoft" ;
-                   :location "Redmond, Washington" ;
-                   :name "Microsoft Studios" .
+vdo:Xbox_Game_Studios rdf:type owl:NamedIndividual ,
+                               vdo:Publisher ;
+                      vdo:Publisher_of vdo:Torchlight ;
+                      vdo:foundation_date "2000-03" ;
+                      vdo:founder "Microsoft" ;
+                      vdo:location "Redmond, Washington" ;
+                      vdo:name "Microsoft Studios" .
 
 
 ###  http://www.videogames.com/#Assassin's_Creed_Unity
 <http://www.videogames.com/#Assassin's_Creed_Unity> rdf:type owl:NamedIndividual ,
-                                                             :Videogame ;
-                                                    :Developed_by :Ubisoft_Montreal ;
-                                                    :Developed_in :Anvil_Next ;
-                                                    :Published_by :Ubisoft ;
-                                                    :genre "action" ,
-                                                           "adventure" ,
-                                                           "stealth" ;
-                                                    :name "Assassin's Creed Unity" ;
-                                                    :release_date "2014-11-11" .
+                                                             vdo:Videogame ;
+                                                    vdo:Developed_by vdo:Ubisoft_Montreal ;
+                                                    vdo:Developed_in vdo:Anvil_Next ;
+                                                    vdo:Published_by vdo:Ubisoft ;
+                                                    vdo:genre "action" ,
+                                                              "adventure" ,
+                                                              "stealth" ;
+                                                    vdo:name "Assassin's Creed Unity" ;
+                                                    vdo:release_date "2014-11-11" .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
