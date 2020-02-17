@@ -44,6 +44,7 @@ public class InterfazEstadisticas extends Container implements ActionListener {
         atributos.setBounds(250,250, 200, 50);
         atributos.setSelectedIndex(-1);
         add(atributos);
+        //atributos.addActionListener(this);
         
         
         
@@ -74,7 +75,7 @@ public class InterfazEstadisticas extends Container implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		System.out.println(e);
 		if(e.getActionCommand().equals("Volver")) {
 			Main.frame.setContentPane(new InterfazPrincipal());
 		}else if(e.getActionCommand().equals("comboBoxChanged")) {
