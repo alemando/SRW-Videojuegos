@@ -16,7 +16,10 @@ import org.apache.jena.query.ResultSet;
 
 public class InterfazInstanciaIgual extends Container implements ActionListener {
 	
+	JTextArea TA1;
 	JComboBox jcmbEntidades, jcmbInstancias, jcmbProperties;
+	JScrollPane JS1;
+	JPanel P1;
 	
 	
     public InterfazInstanciaIgual() {
@@ -25,20 +28,20 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
         setLayout(null);
         
         jcmbEntidades = new JComboBox<ComboItem>(itemsListaEntidades());
-        jcmbEntidades.setBounds(225, 50, 250, 50);
+        jcmbEntidades.setBounds(225, 25, 250, 50);
         add(jcmbEntidades);
         jcmbEntidades.addActionListener(this);
         
         jcmbInstancias = new JComboBox<ComboItem>();
-        jcmbInstancias.setBounds(225, 150, 250, 50);
+        jcmbInstancias.setBounds(225, 100, 250, 50);
         add(jcmbInstancias);
         
         jcmbProperties = new JComboBox<ComboItem>();
-        jcmbProperties.setBounds(225, 250, 250, 50);
+        jcmbProperties.setBounds(225, 175, 250, 50);
         add(jcmbProperties);
         
         JButton botonBusqueda = new JButton("Buscar");
-        botonBusqueda.setBounds(225, 350, 250, 50);
+        botonBusqueda.setBounds(225, 250, 250, 50);
         add(botonBusqueda);
         botonBusqueda.addActionListener(this);
                 
@@ -47,6 +50,14 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
         add(botonVolver);
         botonVolver.addActionListener(this);
         
+        TA1 = new JTextArea(14,56);
+        JS1 = new JScrollPane(TA1);
+		JS1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		P1 = new JPanel();
+		P1.setBounds(1,340,700,250);
+		P1.add(JS1);
+		add(P1);
+        TA1.setEditable(false);        
         //Para recargar las vistas
         SwingUtilities.updateComponentTreeUI(Main.frame);
     }
@@ -81,6 +92,7 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 		else if(e.getActionCommand().equals("Volver")) {
 			Main.frame.setContentPane(new InterfazPrincipal());
 		}else if(e.getActionCommand().equals("Buscar")) {
+			TA1.setText("");
 			ArrayList<String> salidaFinal= consultaOntologias();
 			String salida ="";
 			for (int i= 0; i< salidaFinal.size();i++) {
@@ -93,7 +105,7 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 				
 			}else {
 				
-				JOptionPane.showMessageDialog(getComponent(0), salida);
+				TA1.setText(TA1.getText()+ salida+"\n");
 			}
 		}
 		
@@ -288,13 +300,34 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 		ArrayList<String> entidades = buscarClassEquivalents(entidad);
 		ArrayList<String> propiedades = buscarPropertyEquivalents(entidad, propiedad);
 		ArrayList<String> valores = busqueda();
-		String valor = valores.get(0);
+		
+		if(valores.isEmpty() == false) {
+			for(int k =0 ; k< valores.size();k++) {
+		
+		String query = "PREFIX vdo: <http://www.videogames.com/>\r\n"+
+				"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"+
+				"SELECT DISTINCT ?individual ?found\r\n"+
+				"WHERE {\r\n"+
+					"?individual  rdf:type <"+ entidad +">.\r\n"+
+					"?individual  <"+ propiedad +"> ?found.\r\n"+
+					"FILTER(?found='"+valores.get(k)+"')\r\n"+
+				"}";
+		ArrayList<QuerySolution> busquedaOWL = new OWLVirtuosoEndPoint().consulta(query);
+		for(int j=0; j<busquedaOWL.size(); j++) {
+			consulta.add((busquedaOWL.get(j).get("?individual")).toString());
+		}
+			}
+		}
+		
+
+
 		for(int i = 0; i < entidades.size();i++) {
 			String itemE = entidades.get(i);
 			String itemP = propiedades.get(i);
 			System.out.println(itemE+" "+itemP);
 			
 			if(itemE.contains("http://localhost:2020/resource/vocab/") && itemP.contains("http://localhost:2020/resource/vocab/")) {
+				if(valores.isEmpty() == false) {
 				for(int k =0 ; k< valores.size();k++) {
 					
 				
@@ -307,29 +340,42 @@ public class InterfazInstanciaIgual extends Container implements ActionListener 
 							"FILTER(?found='"+valores.get(k)+"')\r\n"+
 						"}";
 				ArrayList<QuerySolution> resultadosD2 = new D2RQEndPoint().consulta(queryD2);
+				if(resultadosD2.isEmpty()==false) {
 				for(int j=0; j< resultadosD2.size(); j++) {
 					consulta.add((resultadosD2.get(j).get("?individual")).toString());
 	
 				}
 				}
-			}else if(itemE.contains("http://dbpedia.org/ontology/") && itemP.contains("http://dbpedia.org/ontology/")) {
-				for(int k =0 ; k< valores.size();k++) {
-					
+				}
+				}
+			}
+			else if(itemE.contains("http://dbpedia.org/") && itemP.contains("http://dbpedia.org/")) {
+				if(valores.isEmpty() == false) {
+				for(int k =0 ; k< valores.size();k++) {					
 					
 					String queryD2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
 							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n" + 
 							"SELECT DISTINCT ?individual ?found\r\n"+
 							"WHERE {\r\n"+
-								"?individual  a <"+ itemE +">.\r\n"+
-								"?individual  <"+ itemP +"> ?found.\r\n"+
-								"FILTER(?found='"+valores.get(k)+"')\r\n"+
+								"?individual a <"+ itemE +">.\r\n"+
+								"?individual <"+ itemP +"> ?found.\r\n"+						
 							"}";
 					ArrayList<QuerySolution> resultadosDB = new DBPediaEndPoint().consulta(queryD2);
+					
+					if(resultadosDB.isEmpty()==false) {
 					for(int j=0; j< resultadosDB.size(); j++) {
-						consulta.add((resultadosDB.get(j).get("?individual")).toString());
+						String clase = resultadosDB.get(i).get("?found").toString();
+						String a=clase.toLowerCase();
+						String b= valores.get(k).toLowerCase();
+						if(a.contains(b)) {
+							
+							consulta.add((resultadosDB.get(j).get("?individual")).toString());
+						}			
 		
 					}
 					}
+					}
+			}
 				
 			}
 		}	
