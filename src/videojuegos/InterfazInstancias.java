@@ -85,9 +85,15 @@ public class InterfazInstancias extends Container implements ActionListener {
 		else if(e.getActionCommand().equals("Volver")) {
 			Main.frame.setContentPane(new InterfazPrincipal());
 		}else if(e.getActionCommand().equals("Busqueda")) {
-			busquedaSinFiltro(((ComboItem) jcmbEntidades.getSelectedItem()).getValue());
+			
+			if(((ComboItem) jcmbProperties.getSelectedItem()).getLabel().equals("Seleccione...")){
+				busquedaSinFiltro(((ComboItem) jcmbEntidades.getSelectedItem()).getValue());
+			}else {
+				busquedaConFiltro(((ComboItem) jcmbEntidades.getSelectedItem()).getValue(),((ComboItem) jcmbProperties.getSelectedItem()).getValue(), filtro.getText());
+			}
+			
 		}else if(e.getActionCommand().equals("Busqueda Indirecta")) {
-			System.out.println("Por hacer");
+			busquedaIndirecta(((ComboItem) jcmbEntidades.getSelectedItem()).getValue());
 		}
 		
 	}
@@ -111,8 +117,11 @@ public ArrayList<Object[]> busquedaConFiltro(String entidad, String propiedad, S
 			+ "?individual a owl:NamedIndividual.\r\n";
 		for (int i = 0; i < propertiesRDFOWL.size(); i++) {
 			queryString += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
+			if(propertiesRDFOWL.get(i).equals(propiedad)) {
+				queryString += "FILTER REGEX ( STR(?v"+i+"), \""+filtro+"\", \"i\").\r\n";
+			}
 		}
-			
+		
 			queryString += "}";
 		ArrayList<QuerySolution> resultados = new OWLVirtuosoEndPoint().consulta(queryString);
 		for (int i = 0; i < resultados.size(); i++) {
@@ -142,8 +151,10 @@ public ArrayList<Object[]> busquedaConFiltro(String entidad, String propiedad, S
 			queryString2 +=" WHERE {?individual rdfs:type <"+ entidad +"> .\r\n";
 			for (int i = 0; i < propertiesRDFOWL.size(); i++) {
 				queryString2 += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
+				if(propertiesRDFOWL.get(i).equals(propiedad)) {
+					queryString2 += "FILTER REGEX ( STR(?v"+i+"), \""+filtro+"\", \"i\").\r\n";
+				}
 			}
-				
 			queryString2 += "}";
 			
 			ArrayList<QuerySolution> resultados2 = new RDFEndPoint().consulta(queryString2);
@@ -167,76 +178,87 @@ public ArrayList<Object[]> busquedaConFiltro(String entidad, String propiedad, S
 		
 		//equivalents class
 		ArrayList<String> classEquivalents = buscarClassEquivalents(entidad);
-		
+		ArrayList<String> propertyEquivalents = buscarPropertyEquivalents(entidad, propiedad);
 		for (int i = 0; i < classEquivalents.size(); i++) {
-			String item = classEquivalents.get(i);
-			
-			//Consulta D2RQ
-			if(item.contains("http://localhost:2020/resource/vocab/") ) {
-				ArrayList<String> propertiesD2RQ = buscarProperties(item);
-				String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
-						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
-						"SELECT DISTINCT ?individual ";
+			for (int j = 0; j < propertyEquivalents.size(); j++) {
 				
-				for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
-					queryString3 += "?v"+i1;
-				}
-				
-				queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
-				for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
-					queryString3 += "?individual <"+propertiesD2RQ.get(i1)+"> ?v"+i1+".\r\n";
-				}
+				String property = propertyEquivalents.get(j);
+				String item = classEquivalents.get(i);
+				//Consulta D2RQ
+				if(item.contains("http://localhost:2020/resource/vocab/") && property.contains("http://localhost:2020/resource/vocab/")) {
+					ArrayList<String> propertiesD2RQ = buscarProperties(item);
+					String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+							"SELECT DISTINCT ?individual ";
 					
-				queryString3 += "}";
-				ArrayList<QuerySolution> resultados3 = new D2RQEndPoint().consulta(queryString3);
-				for (int i1 = 0; i1 < resultados3.size(); i1++) {
-					
-					QuerySolution item1 = resultados3.get(i1);
-					Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
-					for (int j = 0; j < propertiesRDFOWL.size(); j++) {
-						arregloA[j] = (item1.get(("?v"+j))).toString();
+					for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+						queryString3 += "?v"+i1;
 					}
-					JButton boton = new JButton("Relaciones");
-					boton.setActionCommand(item1.get(("?individual")).toString());
-					boton.addActionListener(new controlTableButton());
-					arregloA[propertiesRDFOWL.size()] = boton;
-					arreglo.add(arregloA);
-				}
-				
-			//Consulta DBPedia
-			}else if(item.contains("http://dbpedia.org/ontology/") ){
-				ArrayList<String> propertiesDBPedia = buscarProperties(item);
-				String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
-						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
-						"SELECT DISTINCT ?individual ";
-				
-				for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
-					queryString3 += "?v"+i1;
-				}
-				
-				queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
-				for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
-					if(propertiesDBPedia.get(i1).equals("rdfs:label")) {
-						queryString3 += "?individual "+propertiesDBPedia.get(i1)+" ?v"+i1+".\r\n";
-					}else {
-						queryString3 += "?individual <"+propertiesDBPedia.get(i1)+"> ?v"+i1+".\r\n";
-					}
-				}
 					
-				queryString3 += "} LIMIT 10";
-				ArrayList<QuerySolution> resultados3 = new DBPediaEndPoint().consulta(queryString3);
-				for (int i1 = 0; i1 < resultados3.size(); i1++) {
-					
-					QuerySolution item1 = resultados3.get(i1);
-					Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
-					for (int j = 0; j < propertiesRDFOWL.size(); j++) {
-						arregloA[j] = (item1.get(("?v"+j))).toString();
+					queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+					for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+						queryString3 += "?individual <"+propertiesD2RQ.get(i1)+"> ?v"+i1+".\r\n";
+						if(propertiesD2RQ.get(i1).equals(property)) {
+							queryString3 += "FILTER REGEX ( STR(?v"+i1+"), \""+filtro+"\", \"i\").\r\n";
+						}
 					}
-					JButton boton = new JButton("Relaciones");
-					boton.setActionCommand(item1.get(("?individual")).toString());
-					boton.addActionListener(new controlTableButton());
-					arregloA[propertiesRDFOWL.size()] = boton;
-					arreglo.add(arregloA);
+					queryString3 += "}";
+					ArrayList<QuerySolution> resultados3 = new D2RQEndPoint().consulta(queryString3);
+					for (int i1 = 0; i1 < resultados3.size(); i1++) {
+						
+						QuerySolution item1 = resultados3.get(i1);
+						Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+						for (int j1 = 0; j1 < propertiesRDFOWL.size(); j1++) {
+							arregloA[j1] = (item1.get(("?v"+j1))).toString();
+						}
+						JButton boton = new JButton("Relaciones");
+						boton.setActionCommand(item1.get(("?individual")).toString());
+						boton.addActionListener(new controlTableButton());
+						arregloA[propertiesRDFOWL.size()] = boton;
+						arreglo.add(arregloA);
+					}
+					
+				//Consulta DBPedia
+				}else if(item.contains("http://dbpedia.org/ontology/") && property.contains("http://dbpedia.org/ontology/")){
+					ArrayList<String> propertiesDBPedia = buscarProperties(item);
+					String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+							"SELECT DISTINCT ?individual ";
+					
+					for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+						queryString3 += "?v"+i1;
+					}
+					
+					queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+					for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+						if(propertiesDBPedia.get(i1).equals("rdfs:label")) {
+							queryString3 += "?individual "+propertiesDBPedia.get(i1)+" ?v"+i1+".\r\n";
+							if(propertiesDBPedia.get(i1).equals(property)) {
+								queryString += "FILTER REGEX ( STR(?v"+i1+"), \""+filtro+"\", \"i\").\r\n";
+							}
+						}else {
+							queryString3 += "?individual <"+propertiesDBPedia.get(i1)+"> ?v"+i1+".\r\n";
+							if(propertiesDBPedia.get(i1).equals(property)) {
+								queryString3 += "FILTER REGEX ( STR(?v"+i1+"), \""+filtro+"\", \"i\").\r\n";
+							}
+						}
+					}
+					queryString3 += "} LIMIT 10";
+					System.out.println(queryString3);
+					ArrayList<QuerySolution> resultados3 = new DBPediaEndPoint().consulta(queryString3);
+					for (int i1 = 0; i1 < resultados3.size(); i1++) {
+						
+						QuerySolution item1 = resultados3.get(i1);
+						Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+						for (int j1 = 0; j1 < propertiesRDFOWL.size(); j1++) {
+							arregloA[j1] = (item1.get(("?v"+j1))).toString();
+						}
+						JButton boton = new JButton("Relaciones");
+						boton.setActionCommand(item1.get(("?individual")).toString());
+						boton.addActionListener(new controlTableButton());
+						arregloA[propertiesRDFOWL.size()] = boton;
+						arreglo.add(arregloA);
+					}
 				}
 			}
 		}
@@ -456,6 +478,195 @@ public ArrayList<Object[]> busquedaConFiltro(String entidad, String propiedad, S
 		return arreglo;
 	}
 	
+	
+	
+	public ArrayList<Object[]> busquedaIndirecta(String entidad) {
+		
+		ArrayList<String> propertiesRDFOWL = buscarProperties(entidad);
+				
+		ArrayList<Object[]> arreglo = new ArrayList<Object[]>();
+		
+		ArrayList<String> clases = buscarSubClass(entidad);
+		
+		for (int k = 0; k < clases.size(); k++) {
+			entidad = clases.get(k);
+			
+			//Consulta owl
+			String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+					"SELECT DISTINCT ?individual ";
+			
+			for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+				queryString += "?v"+i;
+			}
+			
+			queryString +=" WHERE {?individual a <"+ entidad +"> .\r\n"
+				+ "?individual a owl:NamedIndividual.\r\n";
+			for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+				queryString += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
+			}
+				
+				queryString += "}";
+			ArrayList<QuerySolution> resultados = new OWLVirtuosoEndPoint().consulta(queryString);
+			for (int i = 0; i < resultados.size(); i++) {
+				
+				QuerySolution item = resultados.get(i);
+				Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+				for (int j = 0; j < propertiesRDFOWL.size(); j++) {
+					arregloA[j] = (item.get(("?v"+j))).toString();
+				}
+				JButton boton = new JButton("Relaciones");
+				boton.setActionCommand(item.get(("?individual")).toString());
+				boton.addActionListener(new controlTableButton());
+				arregloA[propertiesRDFOWL.size()] = boton;
+				arreglo.add(arregloA);
+			}
+			
+			//ConsultaRDF
+			try {
+				String queryString2 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+						"SELECT DISTINCT ?individual ";
+				
+				for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+					queryString2 += "?v"+i;
+				}
+				
+				queryString2 +=" WHERE {?individual rdfs:type <"+ entidad +"> .\r\n";
+				for (int i = 0; i < propertiesRDFOWL.size(); i++) {
+					queryString2 += "?individual <"+propertiesRDFOWL.get(i)+"> ?v"+i+".\r\n";
+				}
+					
+				queryString2 += "}";
+				
+				ArrayList<QuerySolution> resultados2 = new RDFEndPoint().consulta(queryString2);
+				for (int i = 0; i < resultados2.size(); i++) {
+					
+					QuerySolution item = resultados2.get(i);
+					Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+					for (int j = 0; j < propertiesRDFOWL.size(); j++) {
+						arregloA[j] = (item.get(("?v"+j))).toString();
+					}
+					JButton boton = new JButton("Relaciones");
+					boton.setActionCommand(item.get(("?individual")).toString());
+					boton.addActionListener(new controlTableButton());
+					arregloA[propertiesRDFOWL.size()] = boton;
+					arreglo.add(arregloA);
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//equivalents class
+			ArrayList<String> classEquivalents = buscarClassEquivalents(entidad);
+			
+			for (int i = 0; i < classEquivalents.size(); i++) {
+				String item = classEquivalents.get(i);
+				
+				//Consulta D2RQ
+				if(item.contains("http://localhost:2020/resource/vocab/") ) {
+					ArrayList<String> propertiesD2RQ = buscarProperties(item);
+					String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+							"SELECT DISTINCT ?individual ";
+					
+					for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+						queryString3 += "?v"+i1;
+					}
+					
+					queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+					for (int i1 = 0; i1 < propertiesD2RQ.size(); i1++) {
+						queryString3 += "?individual <"+propertiesD2RQ.get(i1)+"> ?v"+i1+".\r\n";
+					}
+						
+					queryString3 += "}";
+					ArrayList<QuerySolution> resultados3 = new D2RQEndPoint().consulta(queryString3);
+					for (int i1 = 0; i1 < resultados3.size(); i1++) {
+						
+						QuerySolution item1 = resultados3.get(i1);
+						Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+						for (int j = 0; j < propertiesRDFOWL.size(); j++) {
+							arregloA[j] = (item1.get(("?v"+j))).toString();
+						}
+						JButton boton = new JButton("Relaciones");
+						boton.setActionCommand(item1.get(("?individual")).toString());
+						boton.addActionListener(new controlTableButton());
+						arregloA[propertiesRDFOWL.size()] = boton;
+						arreglo.add(arregloA);
+					}
+					
+				//Consulta DBPedia
+				}else if(item.contains("http://dbpedia.org/ontology/") ){
+					ArrayList<String> propertiesDBPedia = buscarProperties(item);
+					String queryString3 = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+							"SELECT DISTINCT ?individual ";
+					
+					for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+						queryString3 += "?v"+i1;
+					}
+					
+					queryString3 +=" WHERE {?individual a <"+ item +"> .\r\n";
+					for (int i1 = 0; i1 < propertiesDBPedia.size(); i1++) {
+						if(propertiesDBPedia.get(i1).equals("rdfs:label")) {
+							queryString3 += "?individual "+propertiesDBPedia.get(i1)+" ?v"+i1+".\r\n";
+						}else {
+							queryString3 += "?individual <"+propertiesDBPedia.get(i1)+"> ?v"+i1+".\r\n";
+						}
+					}
+						
+					queryString3 += "} LIMIT 10";
+					ArrayList<QuerySolution> resultados3 = new DBPediaEndPoint().consulta(queryString3);
+					for (int i1 = 0; i1 < resultados3.size(); i1++) {
+						
+						QuerySolution item1 = resultados3.get(i1);
+						Object [] arregloA = new Object[propertiesRDFOWL.size()+1];
+						for (int j = 0; j < propertiesRDFOWL.size(); j++) {
+							arregloA[j] = (item1.get(("?v"+j))).toString();
+						}
+						JButton boton = new JButton("Relaciones");
+						boton.setActionCommand(item1.get(("?individual")).toString());
+						boton.addActionListener(new controlTableButton());
+						arregloA[propertiesRDFOWL.size()] = boton;
+						arreglo.add(arregloA);
+					}
+				}
+			}
+		}
+		JTableModel jtable;
+		
+		Object[][] tabla = new Object[arreglo.size()][propertiesRDFOWL.size()+1 ];
+		
+		for (int i = 0; i < arreglo.size(); i++) {
+			for (int j = 0; j < arreglo.get(i).length; j++) {
+				tabla[i][j] = arreglo.get(i)[j];
+			}
+		}
+		/*
+		for (int i = 0; i < tabla.length; i++) {
+			for (int j = 0; j < tabla[i].length; j++) {
+				System.out.println(tabla[i][j]);
+			}
+		}*/
+		
+		
+
+		if(propertiesRDFOWL.size() == 4) {
+			jtable = new JTableModel(new String[] {" ", " ", " ", " ", "Relaciones"},
+					new Class<?>[] {String.class, String.class, String.class, String.class, JButton.class}, tabla);
+			
+		}else {
+			jtable = new JTableModel(new String[] {" ", " ", " ", "Relaciones"},
+					new Class<?>[] {String.class, String.class, String.class, JButton.class}, tabla);
+		}
+		
+		table.setModel(jtable);
+		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
+	    table.getColumn("Relaciones").setCellRenderer(buttonRenderer);
+		return arreglo;
+	}
+	
 	public ArrayList<String> buscarClassEquivalents(String entidad) {
 		ArrayList<String> arreglo = new ArrayList<String>();
 		try {
@@ -478,7 +689,54 @@ public ArrayList<Object[]> busquedaConFiltro(String entidad, String propiedad, S
 		
 		return arreglo;
 	}
+	
+	public ArrayList<String> buscarPropertyEquivalents(String entidad, String propiedad) {
+		ArrayList<String> arreglo = new ArrayList<String>();
+		try {
+			ArrayList<QuerySolution> resultados = new RDFIntegracionEndPoint().consulta("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+					"SELECT DISTINCT ?property\r\n" + 
+					"WHERE {?property a owl:DatatypeProperty.\n" + 
+					" ?class owl:equivalentClass <"+ entidad +">."+
+					"  ?property rdfs:domain ?class.\r\n" +
+					" ?property owl:equivalentProperty <"+ propiedad +">."+
+					"} ");
+			for (int i = 0; i < resultados.size(); i++) {
+				
+				String item = resultados.get(i).get("?property").toString();
+				arreglo.add(item);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return arreglo;
+	}
 
+	public ArrayList<String> buscarSubClass(String entidad) {
+		ArrayList<String> arreglo = new ArrayList<String>();
+		try {
+			
+			ArrayList<QuerySolution> resultados = new RDFIntegracionEndPoint().consulta("PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"+
+					"PREFIX owl: <http://www.w3.org/2002/07/owl#>\r\n"+
+					"SELECT DISTINCT ?subClass\r\n" + 
+					"WHERE {\r\n" + 
+					"  <"+ entidad + "> a owl:Class. \r\n" +
+					"  ?subClass rdfs:subClassOf <"+ entidad + ">.\r\n" +
+					"}");
+			for (int i = 0; i < resultados.size(); i++) {
+				
+				String item = resultados.get(i).get("?subClass").toString();
+				arreglo.add(item);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return arreglo;
+	}
 	
 	public ArrayList<String> buscarProperties(String entidad) {
 		ArrayList<String> arreglo = new ArrayList<String>();
